@@ -1,0 +1,48 @@
+{% extends "base1.html" %}
+{% block title %} Register New Staff {% endblock %}
+
+{% block content %}
+
+<div id="main-body" class="container-md"> 
+
+    <h4 class="offcanvas-title pt-3"><i class="fa-solid fa-user-plus"></i> New Staff</h4>
+        <hr class="border-secondary border-2">
+        
+    <form action="{{ url_for('addStaff')}}" method="post" class="row g-3 pb-3">
+        <div class="col-sm-6">
+            <label for="first_name" class="form-label">First name</label>
+            <input type="text" id="first_name" name="first_name" class="form-control" required>
+        </div>
+        <div class="col-sm-6">
+            <label for="last_name" class="form-label">Last name</label>
+            <input type="text" id="last_name" name="last_name" class="form-control" required>
+        </div>
+        <div class="col-sm-6">
+          <label for="department" class="form-label">Department</label>
+          <input type="text" id="department" name="department" class="form-control" required>
+      </div>
+      <div class="col-sm-6">
+          <label for="position" class="form-label">Position</label>
+          <input type="text" id="position" name="position" class="form-control" required>
+      </div> 
+        <div class="col-sm-6">
+          <label for="work_phone" class="form-label">Work phone</label>
+          <input type="text" id="work_phone" name="work_phone" class="form-control" required>
+        </div>
+        <div class="col-sm-6">
+          <label for="hire_date" class="form-label">Hire date</label>
+          <input type="date" id="hire_date" name="hire_date" class="form-control" required>
+        </div>
+        <div class="col-sm-12">
+          <label for="email" class="form-label">Email</label>
+          <input type="text" id="email" name="email" class="form-control" required>
+        </div>                
+        <div class="d-grid gap-2 col-sm-6">
+          <button type="submit" class="btn btn-info text-light">Add</button>
+        </div>
+        <div class="d-grid gap-2 col-sm-6">
+          <a href="{{ url_for('staffList') }}" role="button" class="btn btn-secondary">Cancel</a>
+        </div>        
+    </form> 
+</div>
+{% endblock %}

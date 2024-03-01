@@ -1,0 +1,94 @@
+from flask import render_template
+from flask import request
+from flask import redirect
+from flask import url_for
+from flask import session
+from flask import flash
+
+from app import app
+from flask_hashing import Hashing
+hashing = Hashing(app)
+
+from app.shared import home
+from app.shared import adminOrStaffProfile
+from app.shared import editAdminOrStaffProfile
+from app.shared import changePassword
+from app.shared import marinerList
+from app.shared import guideList
+from app.shared import addGuide
+
+@app.route("/staff/home")
+def staffHome():
+    if "loggedin" in session and session["user_role"] == "admin":
+        return redirect("/admin/home")
+    elif "loggedin" in session and session["user_role"] == "staff":
+        return home()
+    else:
+        flash("Authorized users only. Please log in.", "error")
+        return redirect(url_for('login'))
+    
+
+@app.route("/staff/profile", methods=["GET"])
+def staffProfile():    
+    if "loggedin" in session and session["user_role"] == "admin":
+        return redirect("/admin/profile")
+    elif "loggedin" in session and session["user_role"] == "staff":
+        return adminOrStaffProfile()
+    else:
+        flash("Authorized users only. Please log in.", "error")
+        return redirect(url_for('login'))
+
+
+@app.route("/staff/profile/edit", methods=["GET", "POST"])
+def editStaffProfile():    
+    if "loggedin" in session and session["user_role"] == "admin":
+        return redirect ("/admin/profile/edit")
+    elif "loggedin" in session and session["user_role"] == "staff":
+        return editAdminOrStaffProfile()
+    else:
+        flash("Authorized users only. Please log in.", "error")
+        return redirect(url_for('login'))
+    
+
+@app.route("/staff/changepassword", methods=["GET", "POST"])
+def staffChangePassword():    
+    if "loggedin" in session and session["user_role"] == "admin":
+        return redirect(url_for("/admin/changepassword"))
+    elif "loggedin" in session and session["user_role"] == "staff":
+        return changePassword()
+    else:
+        flash("Authorized users only. Please log in.", "error")
+        return redirect(url_for('login'))
+    
+
+@app.route("/staff/marinerlist")
+def staffMarinerList():
+    if "loggedin" in session and session["user_role"] == "admin":
+        return redirect("/admin/marinerlist")
+    elif "loggedin" in session and session["user_role"] == "staff":
+        return marinerList()  
+    else:
+        flash("Authorized users only. Please log in.", "error")
+        return redirect(url_for('login'))
+    
+    
+@app.route("/staff/guidelist")
+def staffGuideList():
+    if "loggedin" in session and session["user_role"] == "admin":
+        return redirect("/admin/guidelist")
+    elif "loggedin" in session and session["user_role"] == "staff":
+        return guideList()
+    else:
+        flash("Authorized users only. Please log in.", "error")
+        return redirect(url_for('login'))
+    
+    
+@app.route("/staff/guide/add", methods=["GET", "POST"])
+def staffAddGuide():
+    if "loggedin" in session and session["user_role"] == "admin":
+        return redirect("/admin/guide/add")
+    elif "loggedin" in session and session["user_role"] == "staff":
+        return addGuide()
+    else:
+        flash("Authorized users only. Please log in.", "error")
+        return redirect(url_for('login'))

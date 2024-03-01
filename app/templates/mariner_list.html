@@ -1,0 +1,45 @@
+{% extends "base1.html" %}
+{% block title %} Mariner List {% endblock %}
+
+{% block content %}
+
+<div id="main-body" class="container-md"> 
+    
+    <h4 class="offcanvas-title pt-3"><i class="fa-solid fa-users"></i> Mariner List</h4>
+        <hr class="border-secondary border-2">
+    
+    <div class="table-responsive">
+        <table class="table table-hover table-sm">
+            <tr>
+                <th style="width:3%;">ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Address</th>
+                <th>Join Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>    
+            {% for mariner in mariners %}
+            <tr>
+                <td>{{ mariner[0] }}</td>
+                <td>{{ mariner[1] }}</td>
+                <td>{{ mariner[2] }}</td>
+                <td>{{ mariner[3] }}</td>
+                <td>{{ mariner[4] }}</td>
+                <td>{{ mariner[5] }}</td>
+                <td>{{ mariner[6] }}</td>
+                <td>{% if mariner[7] == 1 %} Active {% else %} Inactive {% endif %}</td>
+                <td>
+                    <a href="#">Edit</a>
+                    <a href="#">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+</div>
+
+{% endblock %}

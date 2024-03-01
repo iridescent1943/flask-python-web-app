@@ -1,0 +1,39 @@
+{% extends "base1.html" %}
+{% block title %} Guide List {% endblock %}
+
+{% block content %}
+
+<div id="main-body" class="container-md">  
+
+    <h4 class="offcanvas-title pt-3"><i class="fa-solid fa-book"></i> Guide List</h4>
+        <hr class="border-secondary border-2">
+
+    <div class="table-responsive">
+        <table class="table table-hover table-sm">    
+            <tr>
+                <th>Ocean ID</th>
+                <th>Common Name</th>
+                <th>Scientific Name</th>
+                <th>Ocean Item Type</th>
+                <th>Present in NZ</th>
+                <th>Details</th>
+            </tr>
+            {% for guide in guides %}
+            <tr>
+                <td>{{ guide[0] }}</td>
+                <td>{{ guide[1] }}</td>
+                <td>{{ guide[2] }}</td>
+                <td>{{ guide[3] }}</td>
+                <td>{{ guide[4] }}</td>
+                <td>
+                    <a href="#">Edit</a>
+                    <a href="#">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+</div>
+
+{% endblock %}

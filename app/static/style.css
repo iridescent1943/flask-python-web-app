@@ -1,0 +1,123 @@
+  .navbar {
+    min-height: 80px;
+  }
+
+  .login-img {
+    background-image: url("/static/img/iStock-1307276976.jpg");  
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: fixed;  
+    width: 100%;
+    height: 100%;
+  }
+
+  .login-container {
+    position: absolute;
+    right: 20px;
+    margin: 20px;
+    min-width: 20%;
+    max-width: 50%;    
+    padding: 16px;
+    background-color: white;
+  }
+
+
+  h1, h2, h3, h4, h5 {
+    font-family: "Oswald", sans-serif;
+    color: #468AC6;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+  } 
+      
+  /* Set height of body and the document to 100% */
+  body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial;
+  }
+  
+  /* Style tab links */
+  .guidelink {
+    background-color: #979ea8;
+    color: white;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    font-family: "Oswald", sans-serif;
+    font-size: 20px;
+    width: 25%;
+  }
+  
+  .guidelink:hover {
+    background-color:#b7babe;
+  }
+  
+  /* Style the tab content (and add height:100% for full page content) */
+  .guidecontent {
+    color:white;
+    display: none;
+    padding: 100px 20px;
+    height: 100%;
+  }
+  
+  #pest_in_nz {background-color:#DDCF9D;}
+  #disease_in_nz {background-color: #dfb4b4;}
+  #pest_not_in_nz {background-color: #d6c876;}
+  #disease_not_in_nz {background-color:#B6A6CA;}
+
+  .btn-info {
+    background-color: #468AC6 !important; /* Background color */
+    border-color: #468AC6 !important; /* Border color */
+  }
+
+
+  .btn-info:hover {
+    background-color: #569fe0 !important; /* Change background color on hover */
+    border-color: #569fe0 !important; /* Change border color on hover */
+  }
+
+  .btn-info:active, .btn-info:visited {
+    background-color: #3978af !important; /* Change background color on active */
+    border-color: #3978af !important; /* Change border color on active */
+  }
+
+  a.btn-info:hover {
+    background-color: #569fe0 !important; /* Change background color on hover */
+    border-color: #569fe0 !important; /* Change border color on hover */
+  }  
+
+  .btn-outline-warning:hover {
+    color: white !important; /* Set the desired light color for text on hover */
+}
+
+
+.dropdown-menu a:hover {background-color: #f2f3f5 !important}
+
+.dashboard-link {
+  text-decoration: none;
+  display: block;
+  transition: 0.3s;
+}
+
+.dashboard-link:hover {
+  color: #818181;
+  text-decoration: underline; 
+}
+
+@media (min-width:576px){
+  .dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+    right: 0;
+    left: auto;
+  }  
+}
+
+@media (max-height: 450px) {
+.sidenav {padding-top: 15px;}
+.sidenav a {font-size: 18px;}
+}

@@ -1,0 +1,45 @@
+{% extends "base1.html" %}
+{% block title %} Edit my profile {% endblock %}
+
+{% block content %}
+
+<div id="main-body" class="container-md"> 
+
+    <h4 class="offcanvas-title pt-3"><i class="fa-solid fa-user-pen"></i> Edit Profile</h4>
+    <hr class="border-secondary border-2">
+
+    <form action="{{ url_for('editStaffProfile')}}" method="post" class="row g-3 pb-3">
+        <div class="col-sm-12">
+            <label for="first_name" class="form-label">First name</label>
+            <input type="text" name="first_name" class="form-control" value="{{ profile[0] }}">
+        </div>
+        <div class="col-sm-12">
+            <label for="last_name" class="form-label">Last name</label>
+            <input type="text" name="last_name" class="form-control" value="{{ profile[1] }}">
+        </div>
+        <div class="col-sm-12">
+            <label for="department" class="form-label">Department</label>
+            <input type="text" name="department" class="form-control" value="{{ profile[4] }}">
+        </div>
+        <div class="col-sm-12">
+            <label for="position" class="form-label">Position</label>
+            <input type="text" name="position" class="form-control" value="{{ profile[5] }}">
+        </div>
+        <div class="col-sm-12">
+            <label for="work_phone" class="form-label">Work phone</label>
+            <input type="tel" name="work_phone" class="form-control" value="{{ profile[3] }}">
+        </div>
+        <div class="col-sm-12">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" name="email" class="form-control" value="{{ profile[2] }}">
+        </div>
+        <div class="d-grid gap-2 col-sm-6">
+            <button type="submit" class="btn btn-info text-light">Update</button>
+          </div>
+          <div class="d-grid gap-2 col-sm-6">
+            <a href="{% if user_role == 'admin' %}{{ url_for('adminHome') }}{% elif user_role == 'staff' %}{{ url_for('staffHome') }}{% endif %}" role="button" class="btn btn-secondary">Cancel</a>
+          </div>
+    </form>
+</div>
+
+{% endblock %}

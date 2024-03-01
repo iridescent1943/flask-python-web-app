@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %} Log in {% endblock %}
+
+{% block header %} 
+  <nav class="navbar" style="background-color: #468ac6;">
+    <div class="container-fluid">
+      <span class="navbar-brand mb-0 text-light" style="font-family: 'Oswald', sans-serif; font-size: 25px;font-weight: 500;">OCEAN PEST AND DISEASE BIOSECURITY GUIDE</span>
+    </div>
+  </nav>    
+{% endblock %}
+
+{% block content %}
+
+  <div class="login-img container-fluid">
+
+    <div class="login-container">
+
+      <div class="text-center">
+        <h4 class="offcanvas-title pt-1" style="color:#3a414a !important;"> <i class="fa-solid fa-fish"></i> Welcome <i class="fa-solid fa-fish fa-rotate-180 fa-xl"></i></h4>
+      </div>
+
+      <form class="needs-validation pt-2" novalidate action="{{ url_for('login') }}" method="post">
+        <div class="mb-3">
+          <label for="username" class="form-label">Username</label>
+          <input type="text" class="form-control" name="username" required>
+          <div class="invalid-feedback">
+            Please enter a username.
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" class="form-control" name="password" required>
+          <div class="invalid-feedback">
+            Please enter a password.
+          </div>
+        </div>
+        <div class="d-grid gap-2">
+          <button type="submit" class="btn btn-info text-light">Login</button>
+        </div>
+      </form>
+
+      <div class="row text-center pt-2">
+        <div class="col-5">
+          <hr class="border border-secondary border-1">
+        </div>
+        <div class="col-2">
+          <p>Or</p>
+        </div>
+        <div class="col-5">
+          <hr class="border border-secondary border-1">
+        </div>
+      </div>
+      
+      <div class="d-grid gap-2">
+        <a href="{{ url_for('register') }}" class="btn btn-success"  role="button">Register</a>
+      </div>
+
+    </div>
+
+  </div>
+
+{% endblock %}

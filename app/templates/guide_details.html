@@ -1,0 +1,54 @@
+{% extends "base1.html" %}
+{% block title %} Home {% endblock %}
+
+{% block content %}   
+
+<div id="main-body" class="container-md"> 
+    
+    {% if guide[2] == 'pest' and guide[3] == 'yes' %}
+    <style> body{background-color: #DDCF9D;} </style>
+    {% elif guide[2] == 'disease' and guide[3] == 'yes' %}
+        <style> body{background-color: #dfb4b4;} </style>
+    {% elif guide[2] == 'pest' and guide[3] == 'no' %}
+        <style> body{background-color: #d6c876;} </style>
+    {% elif guide[2] == 'disease' and guide[3] == 'no' %}
+        <style> body{background-color: #c4a5d0;} </style>
+    {% else %}
+        <style> body{background-color: white; color: black} </style>
+    {% endif %}  
+
+    <h4 class="offcanvas-title pt-3"><i class="bi bi-substack"></i> {{ guide[0]}}</h4>
+    <hr class="border-secondary border-2">
+
+    <div>
+      <img src="{{ guide[8] }}" style="height:100%;" class="img-fluid" alt="guide[0]" >
+    </div>
+    <br>
+        
+    <h6>Scientific name: <i>{{ guide[1]}}</i><h6>
+    <p>{% if guide[3] == "yes" %} Present in NZ {% else %} Not present in NZ {% endif %}</p>
+    <br>
+
+    <h5>Description</h5>
+    <p>{{ guide[4]}}</p>
+    <br>
+
+    <h5>Why is it a problem?</h5>
+    <p>{{ guide[5]}}</p>
+    <br>
+
+    <h5>What do they look like?</h5> 
+    <p>{{ guide[6]}}</p>
+    <br>
+
+    <h5>Where can they be found?</h5> 
+    <p>{{ guide[7]}}</p>
+    <br>   
+    
+    <div class="d-grid gap-2 pb-3">
+        <a href="{% if user_role == 'admin' %}{{ url_for('adminHome') }}{% elif user_role == 'staff' %}{{ url_for('staffHome') }}{% elif user_role == 'mariner' %}{{ url_for('marinerHome') }}{% endif %}" role="button" class="btn btn-info text-light">Back</a>
+    </div>
+</div>
+
+
+{% endblock %}
