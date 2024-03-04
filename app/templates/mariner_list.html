@@ -9,13 +9,13 @@
         <hr class="border-secondary border-2">
     
     <div class="table-responsive">
-        <table class="table table-hover table-sm">
+        <table class="table table-hover">
             <tr>
-                <th style="width:3%;">ID</th>
+                <th>Mariner ID</th>
                 <th>First Name</th>
                 <th>Last Name</th>
-                <th>Email</th>
                 <th>Phone</th>
+                <th>Email</th>
                 <th>Address</th>
                 <th>Join Date</th>
                 <th>Status</th>
@@ -26,19 +26,150 @@
                 <td>{{ mariner[0] }}</td>
                 <td>{{ mariner[1] }}</td>
                 <td>{{ mariner[2] }}</td>
-                <td>{{ mariner[3] }}</td>
                 <td>{{ mariner[4] }}</td>
+                <td>{{ mariner[3] }}</td>
                 <td>{{ mariner[5] }}</td>
                 <td>{{ mariner[6] }}</td>
                 <td>{% if mariner[7] == 1 %} Active {% else %} Inactive {% endif %}</td>
                 <td>
-                    <a href="#">Edit</a>
-                    <a href="#">Delete</a>
+                {% if user_role == 'admin' %}
+                    <a href="/admin/mariner/edit/{{ mariner[0] }}"><i class="fa-regular fa-pen-to-square me-1"></i></a>                  
+                        
+                      {% if mariner[7] == 1 %} 
+                        <a href="/admin/mariner/inactivate/{{ mariner[0] }}" 
+                          data-bs-toggle="modal" 
+                          data-bs-target="#inactivateMarinerModal" 
+                          data-inactivate-id="{{ mariner[0] }}">              
+                          <i class="fa-solid fa-ban me-1"></i></a>                    
+                      {% else %}
+                        <a href="/admin/mariner/reactivate/{{ mariner[0] }}" 
+                          data-bs-toggle="modal"
+                          data-bs-target="#reactivateMarinerModal" 
+                          data-reactivate-id="{{ mariner[0] }}">
+                          <i class="fa-solid fa-rotate-right me-1"></i></a>                    
+                      {% endif %}
+                        
+                    <a href="/admin/mariner/delete/{{ mariner[8] }}"
+                      data-bs-toggle="modal" 
+                      data-bs-target="#deleteMarinerModal" 
+                      data-delete-id="{{ mariner[8] }}">
+                      <i class="fa-solid fa-xmark"></i></a>              
+                   
+                {% elif user_role == 'staff' %}                    
+                    <a href="/staff/mariner/edit/{{ mariner[0] }}"><i class="fa-regular fa-pen-to-square me-1"></i></a>  
+                      {% if mariner[7] == 1 %} 
+                        <a href="/staff/mariner/inactivate/{{ mariner[0] }}" 
+                          data-bs-toggle="modal" 
+                          data-bs-target="#inactivateMarinerModal1" 
+                          data-inactivate-id="{{ mariner[0] }}">              
+                          <i class="fa-solid fa-ban me-1"></i></a>                        
+                      {% else %}
+                        <a href="/staff/mariner/reactivate/{{ mariner[0] }}" 
+                          data-bs-toggle="modal"
+                          data-bs-target="#reactivateMarinerModal1" 
+                          data-reactivate-id="{{ mariner[0] }}">
+                          <i class="fa-solid fa-rotate-right me-1"></i></a>                        
+                      {% endif %}
+                        
+                    <a href="/staff/mariner/delete/{{ mariner[8] }}" 
+                      data-bs-toggle="modal"
+                      data-bs-target="#deleteMarinerModal1" 
+                      data-delete-id="{{ mariner[8] }}">
+                      <i class="fa-solid fa-xmark"></i></a>                                 
+                {% endif %}             
                 </td>
             </tr>
             {% endfor %}
         </table>
     </div>
+
+
+    {% if user_role == 'admin' %}
+    <div class="modal fade" id="inactivateMarinerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    {% elif user_role == 'staff' %}
+    <div class="modal fade" id="inactivateMarinerModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    {% endif %}   
+          <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel"><i class="fa-solid fa-circle-exclamation"></i> Confirmation</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Are you sure you want to inactivate this mariner? 
+              Once inactivated, the mariner cannot access the website anymore.
+            </div>
+            {% if user_role == 'admin' %}
+              <form id="inactivateMariner" action="/admin/mariner/inactivate/mariner_id" method="post">
+            {% elif user_role == 'staff' %}
+              <form id="inactivateMariner1" action="/staff/mariner/inactivate/mariner_id" method="post">
+            {% endif %}
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-info text-light">Continue</button>              
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              </div>
+          </form>
+          </div>
+        </div>
+      </div>
+
+
+      {% if user_role == 'admin' %}
+        <div class="modal fade" id="reactivateMarinerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      {% elif user_role == 'staff' %}
+        <div class="modal fade" id="reactivateMarinerModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      {% endif %}       
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel"><i class="fa-solid fa-circle-exclamation"></i> Confirmation</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Are you sure you want to reactivate this mariner to access the website again?         
+            </div>
+            {% if user_role == 'admin' %}
+              <form id="reactivateMariner" action="/admin/mariner/reactivate/mariner_id" method="post">
+            {% elif user_role == 'staff' %}
+              <form id="reactivateMariner1" action="/staff/mariner/reactivate/mariner_id" method="post">
+            {% endif %}           
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-info text-light">Continue</button>              
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              </div>
+          </form>
+          </div>
+        </div>
+      </div>
+
+      {% if user_role == 'admin' %}
+        <div class="modal fade" id="deleteMarinerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      {% elif user_role == 'staff' %}
+        <div class="modal fade" id="deleteMarinerModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      {% endif %}
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel"><i class="fa-solid fa-circle-exclamation"></i> Confirmation</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Are you sure you want to delete this mariner?           
+            </div>
+            {% if user_role == 'admin' %}
+              <form id="deleteMariner" action="/admin/mariner/delete/user_id" method="post">
+            {% elif user_role == 'staff' %}
+              <form id="deleteMariner1" action="/staff/mariner/delete/user_id" method="post">
+            {% endif %}          
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-info text-light">Continue</button>              
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              </div>
+          </form>
+          </div>
+        </div>
+      </div>  
+
 
 </div>
 

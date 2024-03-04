@@ -51,3 +51,101 @@ function openPage(pageName,elmnt,color) {
     elmnt.style.backgroundColor = color;
   }
 
+   
+document.addEventListener('DOMContentLoaded', function () {
+    var myModal = new bootstrap.Modal(document.getElementById('inactivateStaffModal'));
+    myModal._element.addEventListener('show.bs.modal', function (event) {
+        var staff_id = event.relatedTarget.getAttribute('data-inactivate-id');
+        document.getElementById('inactivateStaff').action = "/admin/staff/inactivate/" + staff_id;
+    });
+});
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    var myModal = new bootstrap.Modal(document.getElementById('reactivateStaffModal'));
+    myModal._element.addEventListener('show.bs.modal', function (event) {
+        var staff_id = event.relatedTarget.getAttribute('data-reactivate-id');
+        document.getElementById('reactivateStaff').action = "/admin/staff/reactivate/" + staff_id;
+    });
+});
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    var myModal = new bootstrap.Modal(document.getElementById('deleteStaffModal'));
+    myModal._element.addEventListener('show.bs.modal', function (event) {
+        var user_id = event.relatedTarget.getAttribute('data-delete-id');
+        document.getElementById('deleteStaff').action = "/admin/staff/delete/" + user_id;
+    });
+});
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    var myModal = new bootstrap.Modal(document.getElementById('inactivateMarinerModal'));
+    myModal._element.addEventListener('show.bs.modal', function (event) {
+        var mariner_id = event.relatedTarget.getAttribute('data-inactivate-id');
+        document.getElementById('inactivateMariner').action = "/admin/mariner/inactivate/" + mariner_id;
+    });
+});
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    var myModal = new bootstrap.Modal(document.getElementById('inactivateMarinerModal1'));
+    myModal._element.addEventListener('show.bs.modal', function (event) {
+        var mariner_id = event.relatedTarget.getAttribute('data-inactivate-id');
+        document.getElementById('inactivateMariner1').action = "/staff/mariner/inactivate/" + mariner_id;
+    });
+});
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    var myModal = new bootstrap.Modal(document.getElementById('reactivateMarinerModal'));
+    myModal._element.addEventListener('show.bs.modal', function (event) {
+        var mariner_id = event.relatedTarget.getAttribute('data-reactivate-id');
+        document.getElementById('reactivateMariner').action = "/admin/mariner/reactivate/" + mariner_id;
+    });
+});
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    var myModal = new bootstrap.Modal(document.getElementById('reactivateMarinerModal1'));
+    myModal._element.addEventListener('show.bs.modal', function (event) {
+        var mariner_id = event.relatedTarget.getAttribute('data-reactivate-id');
+        document.getElementById('reactivateMariner1').action = "/staff/mariner/reactivate/" + mariner_id;
+    });
+});
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    var myModal = new bootstrap.Modal(document.getElementById('deleteMarinerModal'));
+    myModal._element.addEventListener('show.bs.modal', function (event) {
+        var user_id = event.relatedTarget.getAttribute('data-delete-id');
+        document.getElementById('deleteMariner').action = "/admin/mariner/delete/" + user_id;
+    });
+});
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    var myModal = new bootstrap.Modal(document.getElementById('deleteMarinerModal1'));
+    myModal._element.addEventListener('show.bs.modal', function (event) {
+        var user_id = event.relatedTarget.getAttribute('data-delete-id');
+        document.getElementById('deleteMariner1').action = "/staff/mariner/delete/" + user_id;
+    });
+});
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    var myModal = new bootstrap.Modal(document.getElementById('deleteGuideModal'));
+    myModal._element.addEventListener('show.bs.modal', function (event) {
+        var ocean_id = event.relatedTarget.getAttribute('data-delete-id');
+        document.getElementById('deleteGuide').action = "/admin/guide/delete/" + ocean_id;
+    });
+});
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    var myModal = new bootstrap.Modal(document.getElementById('deleteGuideModal1'));
+    myModal._element.addEventListener('show.bs.modal', function (event) {
+        var ocean_id = event.relatedTarget.getAttribute('data-delete-id');
+        document.getElementById('deleteGuide1').action = "/admin/guide/delete/" + ocean_id;
+    });
+});

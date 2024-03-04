@@ -17,6 +17,14 @@ from app.shared import changePassword
 from app.shared import marinerList
 from app.shared import guideList
 from app.shared import addGuide
+from app.shared import inactivateMariner
+from app.shared import reactivateMariner
+from app.shared import deleteMariner
+from app.shared import adminOrStaffEditMariner
+from app.shared import guideDetails
+from app.shared import editGuideDetails
+from app.shared import deleteGuide
+
 
 @app.route("/admin/home")
 def adminHome():
@@ -77,13 +85,15 @@ def addStaff():
             username = request.form.get("username")
             password = request.form.get("password")
             hashed_password = hashing.hash_value(password, salt='rainbow')
-            email = request.form.get("email")
+            user_role = "staff"
             first_name = request.form.get("first_name")
-            last_name = request.form.get("last_name")
-            work_phone = request.form.get("work_phone")
+            last_name = request.form.get("last_name")            
             department = request.form.get("department")
             position = request.form.get("position")
+            work_phone = request.form.get("work_phone")            
             hire_date = request.form.get("hire_date")
+            email = request.form.get("email")
+            
             # Check if the entered username already exists in the database
             sql1 = "SELECT * FROM user WHERE username = %s;"
             cursor.execute(sql1, (username,))
@@ -91,12 +101,17 @@ def addStaff():
             if ACCOUNT is not None:
                 return "Username already exists. Please choose a different username."
             else:
-                # Username is available, continue to register the account
-                sql2 = "INSERT INTO user (username, password, email, user_role) VALUES (%s, %s, %s, 'staff');"
-                cursor.execute(sql2, (username, hashed_password, email))
-                user_id = cursor.lastrowid
-                sql3 = "INSERT INTO staff (user_id, first_name, last_name, work_phone, department, position, hire_date) VALUES (%s, %s, %s, %s, %s, %s, %s);"
-                cursor.execute(sql3, (user_id, first_name, last_name, work_phone, department, position, hire_date))
+                # Username is available, continue to register the staff            
+                sql2 = """
+                    START TRANSACTION;
+                    INSERT INTO user (username, password, user_role) 
+                    VALUES (%s, %s, %s);
+                    INSERT INTO staff (user_id, first_name, last_name, email, work_phone, department, position, hire_date)
+                    VALUES (LAST_INSERT_ID(), %s, %s, %s, %s, %s, %s, %s);
+                    commit;
+                    """
+                cursor.execute(sql2, (username, hashed_password, user_role, first_name, last_name, email, work_phone, department, position, hire_date))
+                flash ("Staff added successfully.", "success")      
                 return redirect(url_for('staffList'))
         else:
             return render_template('add_staff.html', user_role= user_role, username=session['username'])
@@ -104,6 +119,97 @@ def addStaff():
         flash("Authorized users only. Please log in.", "error")
         return redirect(url_for('login'))
     
+
+@app.route("/admin/staff/edit/<staff_id>", methods=["GET", "POST"])
+def editStaff(staff_id):
+    if 'loggedin' in session and session["user_role"] == "admin":
+        cursor = getCursor()            
+        sql1 = """
+        SELECT first_name, last_name, email, work_phone, department, position, hire_date
+        FROM staff
+        WHERE staff_id = %s;
+        """
+        cursor.execute(sql1, (staff_id,))
+        PROFILE = cursor.fetchone()    
+        if request.method == "POST":
+            first_name = request.form.get("first_name")
+            last_name = request.form.get("last_name")
+            email = request.form.get("email")
+            work_phone = request.form.get("work_phone")
+            department = request.form.get("department")
+            position = request.form.get("position")
+            hire_date = request.form.get("hire_date")
+            sql2 = """
+            UPDATE staff
+            SET first_name = %s, last_name = %s, email = %s, work_phone = %s, department = %s, position = %s, hire_date = %s
+            WHERE staff_id = %s;
+            """
+            cursor.execute(sql2, (first_name, last_name, email, work_phone, department, position, hire_date, staff_id))
+            flash("Staff details updated successfully.", "success")
+            return redirect(url_for('staffList'))
+        else:
+            return render_template('staff_profile_edited_by.html', user_role = session["user_role"], username=session['username'], profile=PROFILE, staff_id=staff_id)
+    else:
+        flash("Authorized users only. Please log in.", "error")
+        return redirect(url_for('login'))
+
+
+
+@app.route("/admin/staff/inactivate/<staff_id>", methods=["GET", "POST"])
+def inactivateStaff(staff_id):    
+    if 'loggedin' in session and session["user_role"] == "admin":
+        if request.method == "POST":
+            cursor = getCursor()
+            sql = """
+            UPDATE staff
+            SET active_user = 0
+            WHERE staff_id = %s;
+            """
+            cursor.execute(sql, (staff_id,))
+            flash("Staff account inactivated successfully.", "success")
+            return redirect(url_for('staffList'))  
+        else:
+            return redirect(url_for('staffList'))        
+    else:
+        flash("Authorized users only. Please log in.", "error")
+        return redirect(url_for('login'))
+    
+
+@app.route("/admin/staff/reactivate/<staff_id>", methods=["GET", "POST"])
+def reactivateStaff(staff_id):    
+    if 'loggedin' in session and session["user_role"] == "admin":
+        if request.method == "POST":
+            cursor = getCursor()
+            sql = """
+            UPDATE staff
+            SET active_user = 1
+            WHERE staff_id = %s;
+            """
+            cursor.execute(sql, (staff_id,))
+            flash("Staff account reactivated successfully.", "success")
+            return redirect(url_for('staffList'))  
+        else:
+            return redirect(url_for('staffList'))        
+    else:
+        flash("Authorized users only. Please log in.", "error")
+        return redirect(url_for('login'))
+    
+
+@app.route("/admin/staff/delete/<user_id>", methods=["GET", "POST"])
+def deleteStaff(user_id):    
+    if 'loggedin' in session and session["user_role"] == "admin":
+        if request.method == "POST":
+            cursor = getCursor()
+            sql = "DELETE FROM user WHERE user_id = %s;"
+            cursor.execute(sql, (user_id,))
+            flash("Staff account deleted successfully.", "success")
+            return redirect(url_for('staffList'))  
+        else:
+            return redirect(url_for('staffList'))        
+    else:
+        flash("Authorized users only. Please log in.", "error")
+        return redirect(url_for('login'))
+         
 
 @app.route("/admin/marinerlist")
 def adminMarinerList():
@@ -113,6 +219,43 @@ def adminMarinerList():
         flash("Authorized users only. Please log in.", "error")
         return redirect(url_for('login')) 
     
+
+@app.route("/admin/mariner/edit/<mariner_id>", methods=["GET", "POST"])
+def adminEditMariner(mariner_id):
+    if "loggedin" in session and session["user_role"] == "admin":
+        return adminOrStaffEditMariner(mariner_id) 
+    else:
+        flash("Authorized users only. Please log in.", "error")
+        return redirect(url_for('login'))
+    
+
+@app.route("/admin/mariner/inactivate/<mariner_id>", methods=["GET", "POST"])
+def adminInactivateMariner(mariner_id): 
+    if "loggedin" in session and session["user_role"] == "admin":
+        return inactivateMariner(mariner_id)
+    else:
+        flash("Authorized users only. Please log in.", "error")
+        return redirect(url_for('login')) 
+
+
+@app.route("/admin/mariner/reactivate/<mariner_id>", methods=["GET", "POST"])
+def adminReactivateMariner(mariner_id): 
+    if "loggedin" in session and session["user_role"] == "admin":
+        return reactivateMariner(mariner_id)
+    else:
+        flash("Authorized users only. Please log in.", "error")
+        return redirect(url_for('login')) 
+    
+    
+@app.route("/admin/mariner/delete/<user_id>", methods=["GET", "POST"])
+def adminDeleteMariner(user_id): 
+    if "loggedin" in session and session["user_role"] == "admin":
+        return deleteMariner(user_id)
+    else:
+        flash("Authorized users only. Please log in.", "error")
+        return redirect(url_for('login')) 
+
+    
 @app.route("/admin/guidelist")
 def adminGuideList():
     if "loggedin" in session and session["user_role"] == "admin":
@@ -120,8 +263,8 @@ def adminGuideList():
     else:
         flash("Authorized users only. Please log in.", "error")
         return redirect(url_for('login')) 
-    
-    
+
+
 @app.route("/admin/guide/add", methods=["GET", "POST"])
 def adminAddGuide():
     if "loggedin" in session and session["user_role"] == "admin":
@@ -129,3 +272,31 @@ def adminAddGuide():
     else:
         flash("Authorized users only. Please log in.", "error")
         return redirect(url_for('login'))
+    
+
+@app.route("/admin/guidedetails/<ocean_id>", methods=["GET", "POST"])
+def adminGuideDetails(ocean_id):
+    if "loggedin" in session and session["user_role"] == "admin":
+        return guideDetails(ocean_id)
+    else:
+        flash("Authorized users only. Please log in.", "error")
+        return redirect(url_for('login'))
+       
+
+@app.route("/admin/guide/edit/<ocean_id>", methods=["GET", "POST"])
+def adminEditGuide(ocean_id):
+    if "loggedin" in session and session["user_role"] == "admin":
+        return editGuideDetails(ocean_id)
+    else:
+        flash("Authorized users only. Please log in.", "error")
+        return redirect(url_for('login'))
+
+
+@app.route("/admin/guide/delete/<ocean_id>", methods=["GET", "POST"])
+def adminDeleteGuide(ocean_id):
+    if "loggedin" in session and session["user_role"] == "admin":
+        return deleteGuide(ocean_id)
+    else:
+        flash("Authorized users only. Please log in.", "error")
+        return redirect(url_for('login'))
+

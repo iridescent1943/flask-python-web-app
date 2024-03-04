@@ -12,14 +12,15 @@ hashing = Hashing(app)
 from app.shared import getCursor
 from app.shared import home
 from app.shared import changePassword
+from app.shared import guideDetails
 
 
 @app.route("/user/home")
 def marinerHome():
     if "loggedin" in session and session["user_role"] == "admin":
-        return redirect("/admin/guide/add")
+        return redirect("/admin/home")
     elif "loggedin" in session and session["user_role"] == "staff":
-        return redirect("/staff/guide/add")
+        return redirect("/staff/home")
     elif "loggedin" in session and session["user_role"] == "mariner":
         return home()
     else:
@@ -95,6 +96,19 @@ def marinerChangePassword():
         return redirect("/staff/changepassword")
     elif "loggedin" in session and session["user_role"] == "mariner":    
         return changePassword()
+    else: # User is not loggedin, redirect to login page
+        flash("Authorized users only. Please log in.", "error")
+        return redirect(url_for('login'))
+    
+
+@app.route("/user/guidedetails/<guide_id>")
+def userGuideDetails(guide_id): 
+    if "loggedin" in session and session["user_role"] == "admin":
+        return redirect("/admin/guidedetails/<guide_id>")
+    elif "loggedin" in session and session["user_role"] == "staff":
+        return redirect("/staff/guidedetails/<guide_id>")
+    elif "loggedin" in session and session["user_role"] == "mariner":    
+        return guideDetails(guide_id)
     else: # User is not loggedin, redirect to login page
         flash("Authorized users only. Please log in.", "error")
         return redirect(url_for('login'))

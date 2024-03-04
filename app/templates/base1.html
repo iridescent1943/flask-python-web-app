@@ -4,44 +4,53 @@
 {% block header %}
 <nav class="navbar navbar-expand-sm navbar-dark" id="top-navbar" style="background-color: #468ac6;">
   <div class="container-fluid">
-      <a class="navbar-brand mb-0" style="font-family: 'Oswald', sans-serif; font-size: 25px;font-weight: 500;" href="{% if user_role == 'admin' %}{{ url_for('adminHome') }}{% elif user_role == 'staff' %}{{ url_for('staffHome') }}{% elif user_role == 'mariner' %}{{ url_for('marinerHome') }}{% endif %}">OCEAN PEST AND DISEASE BIOSECURITY GUIDE</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-      </button>
+      <a class="navbar-brand mb-0 ms-2" 
+      style="font-family: 'Oswald', sans-serif; font-size: 25px; font-weight: 500;" 
+      href="{% if user_role == 'admin' %}{{ url_for('adminHome') }}{% elif user_role == 'staff' %}{{ url_for('staffHome') }}{% elif user_role == 'mariner' %}{{ url_for('marinerHome') }}{% endif %}" 
+      data-bs-toggle="tooltip" 
+      data-bs-title="Return to Homepage" 
+      data-bs-custom-class="color-tooltip">
+      OCEAN PEST AND DISEASE BIOSECURITY GUIDE</a>
 
-      <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-          <ul class="navbar-nav">
+      <div class=" navbar-collapse justify-content-end" id="navbarSupportedContent">
+
+        {% if user_role == 'admin' or user_role == 'staff' %}
+        <ul class="navbar-nav nav-link me-2">
+          <li class="nav-item">
+            <a type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" fdprocessedid="jcs45i"><i class="fa-solid fa-gauge fa-xl"></i></a>       
+          </li> 
+        </ul> 
+        {% endif %} 
+
+        <ul class="navbar-nav me-1">
           <li class="nav-item dropdown">
               <a class="nav-link" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="fa-solid fa-circle-user fa-xl"></i>
+                <i class="fa-solid fa-circle-user fa-xl"></i>
               </a>
-              <ul class="dropdown-menu dropdown-menu-end">
-              {% if user_role == 'admin' or user_role == 'staff' %}
-              <li><a class="dropdown-item" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" fdprocessedid="jcs45i">My dashboard</a></li>
-              <li><hr class="dropdown-divider"></li>
-              {% endif %}
-              <li><a class="dropdown-item" href="{% if user_role == 'admin' %}{{ url_for('adminProfile') }}{% elif user_role == 'staff' %}{{ url_for('staffProfile') }}{% elif user_role == 'mariner' %}{{ url_for('marinerProfile') }}{% endif %}">My profile</a></li>
-              <li><a class="dropdown-item" href="{% if user_role == 'admin' %}{{ url_for('adminChangePassword') }}{% elif user_role == 'staff' %}{{ url_for('staffChangePassword') }}{% elif user_role == 'mariner' %}{{ url_for('marinerChangePassword') }}{% endif %}">Change password</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Log out</a></li>
+              <ul class="dropdown-menu dropdown-menu-end">              
+                <li><a class="dropdown-item" href="{% if user_role == 'admin' %}{{ url_for('adminProfile') }}{% elif user_role == 'staff' %}{{ url_for('staffProfile') }}{% elif user_role == 'mariner' %}{{ url_for('marinerProfile') }}{% endif %}"><i class="bi bi-person"></i> Manage profile</a></li>
+                <li><a class="dropdown-item" href="{% if user_role == 'admin' %}{{ url_for('adminChangePassword') }}{% elif user_role == 'staff' %}{{ url_for('staffChangePassword') }}{% elif user_role == 'mariner' %}{{ url_for('marinerChangePassword') }}{% endif %}"><i class="bi bi-shield-lock"></i> Change password</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="{{ url_for('logout') }}"><i class="bi bi-door-open"></i> Log out</a></li>
               </ul>
           </li>
-          </ul>
+        </ul>
+       
       </div>
   </div>
 </nav>
 
-<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-  <div class="offcanvas-header">
-    <h4 class="offcanvas-title pt-3" id="offcanvasExampleLabel"><i class="fa-solid fa-gauge"></i> Dashboard</h4>
+<div class="offcanvas offcanvas-end tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+  <div class="offcanvas-header pb-0 mb-0">
+    <h4 class="offcanvas-title pt-3" id="offcanvasExampleLabel"><i class="fa-solid fa-gauge"></i> My Dashboard</h4>
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
-  <div class="offcanvas-body">
+  <div class="offcanvas-body pt-0 mt-0">
     {% if user_role == 'admin'%}    
     <div class="bd-callout bd-callout-warning">        
       <p class="h6">Manage staff</p>
-      <a class="nav-link dashboard-link" href="{{ url_for('staffList')}}"><i class="fa-solid fa-angle-right"></i> View or update staff details</a>
       <a class="nav-link dashboard-link" href="{{ url_for('addStaff')}}"><i class="fa-solid fa-angle-right"></i> Register a new staff</a>
+      <a class="nav-link dashboard-link" href="{{ url_for('staffList')}}"><i class="fa-solid fa-angle-right"></i> View or update staff details</a>
     </div>
     {% endif %}
 
@@ -52,13 +61,13 @@
 
     <div class="bd-callout bd-callout-danger">
       <p class="h6">Manage guides</p>
-      <a class="nav-link dashboard-link" href="{% if user_role == 'admin' %}{{ url_for('adminGuideList') }}{% elif user_role == 'staff' %}{{ url_for('staffGuideList') }}{% endif %}"><i class="fa-solid fa-angle-right"></i> View or update guide details</a>
       <a class="nav-link dashboard-link" href="{% if user_role == 'admin' %}{{ url_for('adminAddGuide') }}{% elif user_role == 'staff' %}{{ url_for('staffAddGuide') }}{% endif %}"><i class="fa-solid fa-angle-right"></i> Add a new guide</a>
+      <a class="nav-link dashboard-link" href="{% if user_role == 'admin' %}{{ url_for('adminGuideList') }}{% elif user_role == 'staff' %}{{ url_for('staffGuideList') }}{% endif %}"><i class="fa-solid fa-angle-right"></i> View or update guide details</a>
     </div>
   </div>
 </div>
 
 {% endblock %}
-  
+
 {% block content %}
 {% endblock %}

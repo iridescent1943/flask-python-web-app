@@ -6,7 +6,7 @@
 <div id="main-body" class="container-md"> 
     
     {% if guide[2] == 'pest' and guide[3] == 'yes' %}
-    <style> body{background-color: #DDCF9D;} </style>
+    <style> body{background-color: #f6c986;} </style>
     {% elif guide[2] == 'disease' and guide[3] == 'yes' %}
         <style> body{background-color: #dfb4b4;} </style>
     {% elif guide[2] == 'pest' and guide[3] == 'no' %}
@@ -46,7 +46,7 @@
     <br>   
     
     <div class="d-grid gap-2 pb-3">
-        <a href="{% if user_role == 'admin' %}{{ url_for('adminHome') }}{% elif user_role == 'staff' %}{{ url_for('staffHome') }}{% elif user_role == 'mariner' %}{{ url_for('marinerHome') }}{% endif %}" role="button" class="btn btn-info text-light">Back</a>
+        <a href="{% if user_role == 'admin' %}{{ url_for('adminGuideList') }}{% elif user_role == 'staff' %}{{ url_for('staffGuideList') }}{% elif user_role == 'mariner' %}{{ url_for('marinerHome') }}{% endif %}" role="button" class="btn btn-info text-light">Back</a>
     </div>
 </div>
 

@@ -1,4 +1,9 @@
-from flask import render_template, request, redirect, url_for, session, flash
+from flask import render_template
+from flask import request
+from flask import redirect
+from flask import url_for
+from flask import session
+from flask import flash
 from flask_hashing import Hashing
 from app import app
 hashing = Hashing(app)
@@ -102,6 +107,73 @@ def marinerList():
     return render_template('mariner_list.html', user_role = session["user_role"], username=session['username'], mariners=MARINERS)
 
 
+def adminOrStaffEditMariner(mariner_id):    
+    cursor = getCursor()            
+    sql1 = """
+    SELECT first_name, last_name, email, phone, address
+    FROM mariner    
+    WHERE mariner_id = %s;
+    """
+    cursor.execute(sql1, (mariner_id,))
+    PROFILE = cursor.fetchone()
+    if request.method == "POST":
+        first_name = request.form.get("first_name")
+        last_name = request.form.get("last_name")
+        email = request.form.get("email")
+        phone = request.form.get("phone")
+        address = request.form.get("address")
+        sql2 = """
+        UPDATE mariner
+        SET first_name = %s, last_name = %s, email = %s, phone = %s, address = %s
+        WHERE mariner_id = %s;
+        """
+        cursor.execute(sql2, (first_name, last_name, email, phone, address, mariner_id))
+        if session["user_role"] == "admin":
+            return redirect(url_for('adminMarinerList'))
+        else:
+            return redirect(url_for('staffMarinerList'))
+    else:
+        return render_template('mariner_profile_edited_by.html', user_role= session['user_role'], username=session['username'], profile=PROFILE, mariner_id=mariner_id)
+
+
+def inactivateMariner(mariner_id):   
+    cursor = getCursor()
+    sql = """
+    UPDATE mariner
+    SET active_user = 0
+    WHERE mariner_id = %s;
+    """
+    cursor.execute(sql, (mariner_id,))
+    if session["user_role"] == "admin":
+        return redirect(url_for('adminMarinerList'))
+    else: 
+        return redirect(url_for('staffMarinerList'))
+
+
+def reactivateMariner(mariner_id):   
+    cursor = getCursor()
+    sql = """
+    UPDATE mariner
+    SET active_user = 1
+    WHERE mariner_id = %s;
+    """
+    cursor.execute(sql, (mariner_id,))
+    if session["user_role"] == "admin":
+        return redirect(url_for('adminMarinerList'))
+    else: 
+        return redirect(url_for('staffMarinerList'))
+
+
+def deleteMariner(user_id):   
+    cursor = getCursor()
+    sql = "DELETE FROM user WHERE user_id = %s;"
+    cursor.execute(sql, (user_id,))
+    if session["user_role"] == "admin":
+        return redirect(url_for('adminMarinerList'))
+    else:
+        return redirect(url_for('staffMarinerList'))
+
+
 def guideList():    
     cursor = getCursor()
     sql = """
@@ -131,9 +203,12 @@ def addGuide():
         ocean_id = cursor.lastrowid
         sql2 = "INSERT INTO image (ocean_id, image_url, primary_image) VALUES (%s, %s, 0);"
         cursor.execute(sql2, (ocean_id, image_url))
-        return redirect(url_for('guideList'))
+        if session["user_role"] == "admin":
+            return redirect(url_for('adminGuideList'))
+        else:
+            return redirect(url_for('staffGuideList'))
     else:
-        return render_template('add_new_guide.html',user_role = session["user_role"], username=session['username'])
+        return render_template('add_guide.html',user_role = session["user_role"], username=session['username'])
     
 
 def getGuideImageList():
@@ -180,19 +255,66 @@ def getGuideImageList():
         return PEST_IN_NZ, DISEASE_IN_NZ, PEST_NOT_IN_NZ, DISEASE_NOT_IN_NZ
 
 
-@app.route("/guide/details/<ocean_id>", methods=["GET"])
-def guideDetails(ocean_id):
-    if 'loggedin' in session:
-        cursor = getCursor()
-        sql = """
-        SELECT guide.common_name, guide.scientific_name, guide.ocean_item_type, guide.present_in_NZ, guide.description, guide.threats, guide.key_characteristics, guide.location, image.image_url
-        FROM guide
-        INNER JOIN image ON guide.ocean_id = image.ocean_id
-        WHERE guide.ocean_id = %s;
+def guideDetails(ocean_id):   
+    cursor = getCursor()
+    sql = """
+    SELECT guide.common_name, guide.scientific_name, guide.ocean_item_type, guide.present_in_NZ, guide.description, guide.threats, guide.key_characteristics, guide.location, image.image_url
+    FROM guide
+    INNER JOIN image ON guide.ocean_id = image.ocean_id
+    WHERE guide.ocean_id = %s;
+    """
+    cursor.execute(sql, (ocean_id,))
+    GUIDE = cursor.fetchone()
+    return render_template('guide_details.html', user_role= session['user_role'], username=session['username'], guide=GUIDE)
+
+    
+def editGuideDetails(ocean_id):
+    cursor = getCursor()
+    sql1 = "SELECT * FROM guide WHERE ocean_id = %s;"
+    cursor.execute(sql1, (ocean_id,))
+    GUIDE = cursor.fetchone()
+    sql2 = "SELECT * FROM image WHERE ocean_id = %s;"
+    cursor.execute(sql2, (ocean_id,))
+    IMAGES = cursor.fetchall()
+    if request.method == "POST":
+        common_name = request.form.get("common_name").capitalize()
+        scientific_name = request.form.get("scientific_name").capitalize()
+        ocean_item_type = request.form.get("ocean_item_type")
+        present_in_NZ = request.form.get("present_in_NZ")
+        description = request.form.get("description")
+        threats = request.form.get("threats")
+        key_characteristics = request.form.get("key_characteristics")
+        location = request.form.get("location")
+        primary_image = request.form.get("primary_image")
+        sql3 = """
+        UPDATE guide
+        SET common_name = %s, scientific_name = %s, ocean_item_type = %s, present_in_NZ = %s, description = %s, threats = %s, key_characteristics = %s, location = %s
+        WHERE ocean_id = %s;
         """
-        cursor.execute(sql, (ocean_id,))
-        GUIDE = cursor.fetchone()
-        return render_template('guide_details.html', user_role= session['user_role'], username=session['username'], guide=GUIDE)
+        cursor.execute(sql3, (common_name, scientific_name, ocean_item_type, present_in_NZ, description, threats, key_characteristics, location, ocean_id))
+        sql4 = """
+            START TRANSACTION;
+            UPDATE image
+            SET primary = 1
+            WHERE ocean_id = %s and image_url = %s;
+            Set primary = 0
+            WHERE ocean_id = %s and image_url != %s;
+            COMMIT;
+            """
+        cursor.execute(sql4, (ocean_id, primary_image, ocean_id, primary_image))
+        if session["user_role"] == "admin":
+            return redirect(url_for('adminGuideDetails', ocean_id=ocean_id))
+        else:
+            return redirect(url_for('staffGuideDetails', ocean_id=ocean_id))
     else:
-        flash("Authorized users only. Please log in.", "error")
-        return redirect(url_for('login'))
+        return render_template('edit_guide.html', user_role = session["user_role"], username=session['username'], guide=GUIDE, images=IMAGES)
+
+
+def deleteGuide(ocean_id):   
+    cursor = getCursor()    
+    sql = "DELETE FROM guide WHERE ocean_id = %s;"
+    cursor.execute(sql, (ocean_id,))
+    if session["user_role"] == "admin":
+        return redirect(url_for('adminGuideList'))
+    else:
+        return redirect(url_for('staffGuideList'))

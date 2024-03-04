@@ -36,10 +36,22 @@
         <div class="col-sm-12">
           <label for="email" class="form-label">Email</label>
           <input type="text" id="email" name="email" class="form-control" required>
-        </div>                
+        </div> 
+
+        <div class="col-sm-6">
+          <label for="username" class="form-label">Login username</label>
+          <input type="text" class="form-control" name="username" required>
+        </div>
+
+        <div class="col-sm-6">
+          <label for="password" class="form-label">Login password</label>
+          <input type="password" class="form-control" name="password" required>
+        </div>         
+
         <div class="d-grid gap-2 col-sm-6">
           <button type="submit" class="btn btn-info text-light">Add</button>
         </div>
+        
         <div class="d-grid gap-2 col-sm-6">
           <a href="{{ url_for('staffList') }}" role="button" class="btn btn-secondary">Cancel</a>
         </div>        

@@ -25,41 +25,49 @@ def visit():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():  
-    cursor = getCursor()    
-    if request.method == "POST":
-        username = request.form.get("username")
-        input_password = request.form.get("password")
-        # Check if account exists in the database
-        sql = "SELECT * FROM user WHERE username = %s;"
-        cursor.execute(sql, (username,))
-        ACCOUNT = cursor.fetchone()
-        if ACCOUNT is not None:
-            password =  ACCOUNT[2]
-            # Check if the password is correct
-            if hashing.check_value(password, input_password, salt='rainbow'):
-                # If account exists in the database, create session data
-                session['loggedin'] = True
-                session['user_id'] = ACCOUNT[0]
-                session['username'] = ACCOUNT[1]
-                session['user_role'] = ACCOUNT[3]
-                # Redirect to different home pages based on the role of the user
-                if session['user_role'] == "admin":
-                    return redirect(url_for('adminHome'))
-                if session['user_role'] == "staff":
-                    return redirect(url_for('staffHome'))
-                if session['user_role'] == "mariner":
-                    return redirect(url_for('marinerHome'))                
-            else:
-                # Password incorrect             
-                flash("Incorrect password. Please try again.", "error")
-                return render_template("login.html")
-        else:
-            # Account doesn't exist or username incorrect
-            flash("Incorrect username. Please try again.", "error")
-            return render_template("login.html")
+    cursor = getCursor() 
+    if 'loggedin' in session:
+        if session['user_role'] == "admin":
+            return redirect(url_for('adminHome'))
+        if session['user_role'] == "staff":
+            return redirect(url_for('staffHome'))
+        if session['user_role'] == "mariner":
+            return redirect(url_for('marinerHome'))
     else:
-        # User does not attempt to log in, show the login page
-        return render_template("login.html")
+        if request.method == "POST":
+            username = request.form.get("username")
+            input_password = request.form.get("password")
+            # Check if account exists in the database
+            sql = "SELECT * FROM user WHERE username = %s;"
+            cursor.execute(sql, (username,))
+            ACCOUNT = cursor.fetchone()
+            if ACCOUNT is not None:
+                password =  ACCOUNT[2]
+                # Check if the password is correct
+                if hashing.check_value(password, input_password, salt='rainbow'):
+                    # If account exists in the database, create session data
+                    session['loggedin'] = True
+                    session['user_id'] = ACCOUNT[0]
+                    session['username'] = ACCOUNT[1]
+                    session['user_role'] = ACCOUNT[3]
+                    # Redirect to different home pages based on the role of the user
+                    if session['user_role'] == "admin":
+                        return redirect(url_for('adminHome'))
+                    if session['user_role'] == "staff":
+                        return redirect(url_for('staffHome'))
+                    if session['user_role'] == "mariner":
+                        return redirect(url_for('marinerHome'))                
+                else:
+                    # Password incorrect             
+                    flash("Incorrect password. Please try again.", "error")
+                    return render_template("login.html")
+            else:
+                # Account doesn't exist or username incorrect
+                flash("Incorrect username. Please try again.", "error")
+                return render_template("login.html")
+        else:        # User does not attempt to log in, show the login page
+            return render_template("login.html")
+        
     
 
 @app.route("/register", methods=["GET", "POST"])

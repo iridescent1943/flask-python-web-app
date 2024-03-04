@@ -12,6 +12,7 @@
     height: 100%;
   }
 
+
   .login-container {
     position: absolute;
     right: 20px;
@@ -35,6 +36,7 @@
   body, html {
     height: 100%;
     margin: 0;
+    padding:0;
     font-family: Arial;
   }
   
@@ -64,7 +66,7 @@
     height: 100%;
   }
   
-  #pest_in_nz {background-color:#DDCF9D;}
+  #pest_in_nz {background-color:#f6c986;}
   #disease_in_nz {background-color: #dfb4b4;}
   #pest_not_in_nz {background-color: #d6c876;}
   #disease_not_in_nz {background-color:#B6A6CA;}
@@ -108,16 +110,12 @@
   text-decoration: underline; 
 }
 
-@media (min-width:576px){
-  .dropdown:hover .dropdown-menu {
-    display: block;
-    margin-top: 0;
-    right: 0;
-    left: auto;
-  }  
-}
 
-@media (max-height: 450px) {
-.sidenav {padding-top: 15px;}
-.sidenav a {font-size: 18px;}
-}
+:root{
+  --tooltip-color: #fcce14;}
+
+.color-tooltip > .tooltip-inner {background-color: var(--tooltip-color);}
+.color-tooltip.bs-tooltip-bottom > .tooltip-arrow::before, .color-tooltip.bs-tooltip-auto[data-popper-placement^=bottom] > .tooltip-arrow::before {border-bottom-color: var(--tooltip-color);}
+.color-tooltip.bs-tooltip-top > .tooltip-arrow::before, .color-tooltip.bs-tooltip-auto[data-popper-placement^=top] > .tooltip-arrow::before {border-top-color: var(--tooltip-color);}
+.color-tooltip.bs-tooltip-start > .tooltip-arrow::before, .color-tooltip.bs-tooltip-auto[data-popper-placement^=left] > .tooltip-arrow::before {border-left-color: var(--tooltip-color);}
+.color-tooltip.bs-tooltip-end > .tooltip-arrow::before, .color-tooltip.bs-tooltip-auto[data-popper-placement^=right] > .tooltip-arrow::before {border-right-color: var(--tooltip-color);}
