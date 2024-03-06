@@ -10,7 +10,9 @@ hashing = Hashing(app)
 
 import mysql.connector
 from mysql.connector import FieldType
-import connect as connect
+import connect
+import os
+from werkzeug.utils import secure_filename
 
 cursor = None
 connection = None
@@ -177,17 +179,48 @@ def deleteMariner(user_id):
 def guideList():    
     cursor = getCursor()
     sql = """
-    SELECT guide.ocean_id, common_name, scientific_name, ocean_item_type, present_in_NZ, description, threats, key_characteristics, location, image_url
-    FROM guide INNER JOIN image
-    ON guide.ocean_id = image.ocean_id;
+    SELECT * FROM guide 
     """
     cursor.execute(sql)
     GUIDES = cursor.fetchall()
     return render_template('guide_list.html', user_role = session["user_role"], username=session['username'], guides=GUIDES)
 
 
-def addGuide():
-    cursor = getCursor()
+def allowedFile(file):
+    ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'png', 'gif'}
+    return '.' in file and \
+           file.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@app.route("/admin/add", methods=["GET", "POST"])
+def addphoto(): 
+    cursor = getCursor()    
+    if request.method == "POST":
+        files= request.files.getlist("non_primary_image")
+
+        for file in files: 
+            if allowedFile(file.filename):
+                print("File is allowed.")
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                image_path = '/static/img/' + filename
+                print(f"image_path {image_path}")
+            else: 
+                flash("Only dd are allowed. Please try again. ", "error") 
+        return "success"
+    else:
+        return '''
+        <!doctype html>
+        <title>Upload new File</title>
+        <h1>Upload new File</h1>
+        <form method=post enctype=multipart/form-data>
+        <input type=file name="non_primary_image" multiple>
+        <input type=submit value=Upload>
+        </form>
+        '''
+
+
+def addGuide(): 
+    cursor = getCursor()    
     if request.method == "POST":
         common_name = request.form.get("common_name")
         scientific_name = request.form.get("scientific_name")
@@ -197,24 +230,60 @@ def addGuide():
         threats = request.form.get("threats")
         key_characteristics = request.form.get("key_characteristics")
         location = request.form.get("location")
-        image_url = request.form.get("image_url")
-        sql1 = "INSERT INTO guide (common_name, scientific_name, ocean_item_type, present_in_NZ, description, threats, key_characteristics, location) VALUES (%s, %s, %s, %s, %s, %s, %s, %s);"
-        cursor.execute(sql1, (common_name, scientific_name, ocean_item_type, present_in_NZ, description, threats, key_characteristics, location))
-        ocean_id = cursor.lastrowid
-        sql2 = "INSERT INTO image (ocean_id, image_url, primary_image) VALUES (%s, %s, 0);"
-        cursor.execute(sql2, (ocean_id, image_url))
-        if session["user_role"] == "admin":
-            return redirect(url_for('adminGuideList'))
+        file = request.files['primary_image']
+        files= request.files.getlist("non_primary_image")       
+        print (f"{file}")  
+        print(f"list {files}")
+        
+        if allowedFile(file.filename):              
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            image_path = '/static/img/' + filename        
+
+            sql1 = "INSERT INTO guide (common_name, scientific_name, ocean_item_type, present_in_NZ, description, threats, key_characteristics, location) VALUES (%s, %s, %s, %s, %s, %s, %s, %s);"
+            cursor.execute(sql1, (common_name, scientific_name, ocean_item_type, present_in_NZ, description, threats, key_characteristics, location))
+
+            ocean_id = cursor.lastrowid
+
+            sql2 = "INSERT INTO image (ocean_id, image_path, image_name,primary_image) VALUES (%s, %s, %s, %s );"
+            cursor.execute(sql2, (ocean_id, image_path, filename, '1'))
+            
+            if session["user_role"] == "admin":
+                return redirect(url_for('adminGuideList'))                                
+            else:
+                return redirect(url_for('staffGuideList'))  
         else:
-            return redirect(url_for('staffGuideList'))
+            flash("Only JPG, JPEG, PNG or GIF files are allowed. Please try again. ", "error")
+
+        if files:
+            for file in files: 
+                if allowedFile(file.filename):
+                    print("File is allowed.")
+                    filename = secure_filename(file.filename)
+                    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                    image_path = '/static/img/' + filename
+                    print(f"image_path {image_path}")
+
+                    cursor.execute('SELECT last_insert_id()')
+                    ocean_id = cursor.fetchone()[0]
+
+                    sql3 = "INSERT INTO image (ocean_id, image_path, image_name) VALUES (%s, %s, %s);"
+                    cursor.execute(sql3, (ocean_id, image_path, filename))
+                else: 
+                    flash("Only dd are allowed. Please try again. ", "error")
+                    
+        if session["user_role"] == "admin":
+            return redirect(url_for('adminAddGuide'))
+        else:
+            return redirect(url_for('staffAddGuide'))  
     else:
-        return render_template('add_guide.html',user_role = session["user_role"], username=session['username'])
-    
+        return render_template('add_guide.html', user_role=session.get("user_role"), username=session.get('username'))
+
 
 def getGuideImageList():
         cursor = getCursor()
         sql1 = """
-        SELECT guide.ocean_id, common_name, present_in_NZ, image_url 
+        SELECT guide.ocean_id, common_name, present_in_NZ, image_path 
         FROM guide 
         INNER JOIN image
         ON guide.ocean_id = image.ocean_id
@@ -224,7 +293,7 @@ def getGuideImageList():
         PEST_IN_NZ = cursor.fetchall()
 
         sql2 = """
-        SELECT guide.ocean_id, common_name, present_in_NZ, image_url
+        SELECT guide.ocean_id, common_name, present_in_NZ, image_path
         FROM guide
         INNER JOIN image
         ON guide.ocean_id = image.ocean_id
@@ -234,7 +303,7 @@ def getGuideImageList():
         DISEASE_IN_NZ = cursor.fetchall()
 
         sql3 = """
-        SELECT guide.ocean_id, common_name, present_in_NZ, image_url
+        SELECT guide.ocean_id, common_name, present_in_NZ, image_path
         FROM guide
         INNER JOIN image
         ON guide.ocean_id = image.ocean_id
@@ -244,7 +313,7 @@ def getGuideImageList():
         PEST_NOT_IN_NZ = cursor.fetchall()
 
         sql4 = """
-        SELECT guide.ocean_id, guide.common_name, guide.present_in_NZ, image.image_url
+        SELECT guide.ocean_id, guide.common_name, guide.present_in_NZ, image.image_path
         FROM guide
         INNER JOIN image
         ON guide.ocean_id = image.ocean_id
@@ -258,7 +327,7 @@ def getGuideImageList():
 def guideDetails(ocean_id):   
     cursor = getCursor()
     sql = """
-    SELECT guide.common_name, guide.scientific_name, guide.ocean_item_type, guide.present_in_NZ, guide.description, guide.threats, guide.key_characteristics, guide.location, image.image_url
+    SELECT guide.common_name, guide.scientific_name, guide.ocean_item_type, guide.present_in_NZ, guide.description, guide.threats, guide.key_characteristics, guide.location, image.image_path
     FROM guide
     INNER JOIN image ON guide.ocean_id = image.ocean_id
     WHERE guide.ocean_id = %s;
@@ -277,10 +346,10 @@ def editGuideDetails(ocean_id):
     cursor.execute(sql2, (ocean_id,))
     IMAGES = cursor.fetchall()
     if request.method == "POST":
-        common_name = request.form.get("common_name").capitalize()
-        scientific_name = request.form.get("scientific_name").capitalize()
-        ocean_item_type = request.form.get("ocean_item_type")
-        present_in_NZ = request.form.get("present_in_NZ")
+        common_name = request.form.get("common_name")
+        scientific_name = request.form.get("scientific_name")
+        ocean_item_type = request.form.get("ocean_item_type").lower()
+        present_in_NZ = request.form.get("present_in_NZ").lower()
         description = request.form.get("description")
         threats = request.form.get("threats")
         key_characteristics = request.form.get("key_characteristics")
@@ -296,9 +365,9 @@ def editGuideDetails(ocean_id):
             START TRANSACTION;
             UPDATE image
             SET primary = 1
-            WHERE ocean_id = %s and image_url = %s;
+            WHERE ocean_id = %s and image_path = %s;
             Set primary = 0
-            WHERE ocean_id = %s and image_url != %s;
+            WHERE ocean_id = %s and image_path != %s;
             COMMIT;
             """
         cursor.execute(sql4, (ocean_id, primary_image, ocean_id, primary_image))

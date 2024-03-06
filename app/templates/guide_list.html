@@ -21,10 +21,10 @@
             {% for guide in guides %}
             <tr>
                 <td>{{ guide[0] }}</td>
-                <td>{{ guide[1] }}</td>
-                <td>{{ guide[2] }}</td>
                 <td>{{ guide[3] }}</td>
                 <td>{{ guide[4] }}</td>
+                <td>{{ guide[1] }}</td>
+                <td>{{ guide[2] }}</td>
                 <td>
                 {% if user_role == 'admin' %}
                     <a href="/admin/guidedetails/{{guide[0]}}"><i class="fa-solid fa-eye me-1"></i></a>

@@ -8,17 +8,17 @@
     <h4 class="offcanvas-title pt-3"><i class="fa-solid fa-file-circle-plus"></i> New Guide</h4>
         <hr class="border-secondary border-2">
         
-    <form class="row g-3" action="{% if user_role == 'admin' %}{{ url_for('adminAddGuide') }}{% elif user_role == 'staff' %}{{ url_for('staffAddGuide') }}{% endif %}" method="post">
+    <form class="row g-3" action="{% if user_role == 'admin' %}{{ url_for('adminAddGuide') }}{% elif user_role == 'staff' %}{{ url_for('staffAddGuide') }}{% endif %}" method="post" enctype="multipart/form-data">
         <div class="col-sm-6">
-            <label for="common_name" class="form-label">Common Name</label>
+            <label for="common_name" class="form-label">Common name*</label>
             <input type="text" name="common_name" class="form-control" required>
         </div>
         <div class="col-sm-6">
-            <label for="scientific_name" class="form-label">Scientific Name</label>
+            <label for="scientific_name" class="form-label">Scientific name*</label>
             <input type="text" name="scientific_name" class="form-control" required>
         </div>
         <div class="col-sm-6">
-          <label for="ocean_item_type" class="form-label">Ocean Item Type</label>
+          <label for="ocean_item_type" class="form-label">Ocean item type*</label>
           <select name="ocean_item_type" class="form-select" required>
               <option value="" selected disabled>Choose...</option>
               <option value="pest">Pest</option>
@@ -26,7 +26,7 @@
           </select>
       </div>
       <div class="col-sm-6">
-        <label for="present_in_NZ" class="form-label">Present in NZ</label>
+        <label for="present_in_NZ" class="form-label">Present in NZ*</label>
         <select name="present_in_NZ" class="form-select" required>
             <option value="" selected disabled>Choose...</option>
             <option value="yes">Yes</option>
@@ -34,7 +34,7 @@
         </select>
     </div>
         <div class="col-sm-12">
-            <label for="description" class="form-label">Description</label>
+            <label for="description" class="form-label">Description*</label>
             <textarea name="description" class="form-control" rows="5" required></textarea>
         </div>
         <div class="col-sm-12">
@@ -51,10 +51,14 @@
         </div>
 
         <div class="col-12">
-          <label for="filename" class="form-label">Image</label>
-          <input type="file" name="filename" class="form-control" >
-          <small class="text-muted">Upload image (JPEG, PNG or GIF).</small>
-      </div> 
+            <label for="primary_image" class="form-label">Primay image*<small class="text-muted"> (JPG, JPEG, PNG or GIF)</small></label>
+            <input class="form-control" type="file" name="primary_image" accept="image/jpg, image/jpeg, image/png, image/gif" required>  
+        </div> 
+
+        <div class="col-12">
+            <label for="non_primary_image" class="form-label">Non-primary images<small class="text-muted"> (JPG, JPEG, PNG or GIF)</small></label>
+            <input class="form-control" type="file" name="non_primary_image" accept="image/jpg, image/jpeg, image/png, image/gif" multiple>
+        </div> 
 
         <div class="d-grid gap-2 col-6 mt-3 mb-3">
           <button type="submit" class="btn btn-info text-light">Add</button>
