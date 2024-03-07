@@ -4,8 +4,9 @@ from flask import redirect
 from flask import url_for
 from flask import session
 from flask import flash
+
+from biosecurity import app
 from flask_hashing import Hashing
-from app import app
 hashing = Hashing(app)
 
 import mysql.connector
@@ -191,34 +192,6 @@ def allowedFile(file):
     return '.' in file and \
            file.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-@app.route("/admin/add", methods=["GET", "POST"])
-def addphoto(): 
-    cursor = getCursor()    
-    if request.method == "POST":
-        files= request.files.getlist("non_primary_image")
-
-        for file in files: 
-            if allowedFile(file.filename):
-                print("File is allowed.")
-                filename = secure_filename(file.filename)
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                image_path = '/static/img/' + filename
-                print(f"image_path {image_path}")
-            else: 
-                flash("Only dd are allowed. Please try again. ", "error") 
-        return "success"
-    else:
-        return '''
-        <!doctype html>
-        <title>Upload new File</title>
-        <h1>Upload new File</h1>
-        <form method=post enctype=multipart/form-data>
-        <input type=file name="non_primary_image" multiple>
-        <input type=submit value=Upload>
-        </form>
-        '''
-
-
 def addGuide(): 
     cursor = getCursor()    
     if request.method == "POST":
@@ -230,11 +203,9 @@ def addGuide():
         threats = request.form.get("threats")
         key_characteristics = request.form.get("key_characteristics")
         location = request.form.get("location")
-        file = request.files['primary_image']
-        files= request.files.getlist("non_primary_image")       
-        print (f"{file}")  
-        print(f"list {files}")
         
+        file = request.files['primary_image']
+        print (f"{file}")  
         if allowedFile(file.filename):              
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
@@ -245,39 +216,33 @@ def addGuide():
 
             ocean_id = cursor.lastrowid
 
-            sql2 = "INSERT INTO image (ocean_id, image_path, image_name,primary_image) VALUES (%s, %s, %s, %s );"
-            cursor.execute(sql2, (ocean_id, image_path, filename, '1'))
-            
-            if session["user_role"] == "admin":
-                return redirect(url_for('adminGuideList'))                                
-            else:
-                return redirect(url_for('staffGuideList'))  
+            sql2 = "INSERT INTO image (ocean_id, image_path, primary_image) VALUES (%s, %s, %s);"
+            cursor.execute(sql2, (ocean_id, image_path, '1'))
         else:
             flash("Only JPG, JPEG, PNG or GIF files are allowed. Please try again. ", "error")
 
-        if files:
-            for file in files: 
-                if allowedFile(file.filename):
-                    print("File is allowed.")
-                    filename = secure_filename(file.filename)
-                    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                    image_path = '/static/img/' + filename
-                    print(f"image_path {image_path}")
+        files= request.files.getlist("non_primary_image")    
+        print(f"list {files}")
+        for file in files: 
+            if allowedFile(file.filename):
+                print("File is allowed.")
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                image_path = '/static/img/' + filename
+                print(f"image_path {image_path}")
 
-                    cursor.execute('SELECT last_insert_id()')
-                    ocean_id = cursor.fetchone()[0]
+                cursor.execute('SELECT last_insert_id()')
+                ocean_id = cursor.fetchone()[0]
 
-                    sql3 = "INSERT INTO image (ocean_id, image_path, image_name) VALUES (%s, %s, %s);"
-                    cursor.execute(sql3, (ocean_id, image_path, filename))
-                else: 
-                    flash("Only dd are allowed. Please try again. ", "error")
-                    
+                sql3 = "INSERT INTO image (ocean_id, image_path) VALUES (%s, %s);"
+                cursor.execute(sql3, (ocean_id, image_path))
+                        
         if session["user_role"] == "admin":
-            return redirect(url_for('adminAddGuide'))
+            return redirect(url_for('adminGuideList'))                                
         else:
-            return redirect(url_for('staffAddGuide'))  
+            return redirect(url_for('staffGuideList'))          
     else:
-        return render_template('add_guide.html', user_role=session.get("user_role"), username=session.get('username'))
+        return render_template('add_guide.html', user_role=session['user_role'], username=session['username'])
 
 
 def getGuideImageList():

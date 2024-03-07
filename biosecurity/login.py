@@ -1,6 +1,7 @@
 from flask import render_template, request, redirect, url_for, session, flash
+
+from biosecurity import app
 from flask_hashing import Hashing
-from app import app
 hashing = Hashing(app)
 
 import mysql.connector

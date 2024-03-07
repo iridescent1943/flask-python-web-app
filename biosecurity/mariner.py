@@ -5,14 +5,14 @@ from flask import url_for
 from flask import session
 from flask import flash
 
-from app import app
+from biosecurity import app
 from flask_hashing import Hashing
 hashing = Hashing(app)
 
-from app.shared import getCursor
-from app.shared import home
-from app.shared import changePassword
-from app.shared import guideDetails
+from biosecurity.shared import getCursor
+from biosecurity.shared import home
+from biosecurity.shared import changePassword
+from biosecurity.shared import guideDetails
 
 
 @app.route("/user/home")

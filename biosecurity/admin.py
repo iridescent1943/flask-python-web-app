@@ -5,25 +5,25 @@ from flask import url_for
 from flask import session
 from flask import flash
 
-from app import app
+from biosecurity import app
 from flask_hashing import Hashing
 hashing = Hashing(app)
 
-from app.shared import getCursor
-from app.shared import home
-from app.shared import adminOrStaffProfile
-from app.shared import editAdminOrStaffProfile
-from app.shared import changePassword
-from app.shared import marinerList
-from app.shared import guideList
-from app.shared import addGuide
-from app.shared import inactivateMariner
-from app.shared import reactivateMariner
-from app.shared import deleteMariner
-from app.shared import adminOrStaffEditMariner
-from app.shared import guideDetails
-from app.shared import editGuideDetails
-from app.shared import deleteGuide
+from biosecurity.shared import getCursor
+from biosecurity.shared import home
+from biosecurity.shared import adminOrStaffProfile
+from biosecurity.shared import editAdminOrStaffProfile
+from biosecurity.shared import changePassword
+from biosecurity.shared import marinerList
+from biosecurity.shared import guideList
+from biosecurity.shared import addGuide
+from biosecurity.shared import inactivateMariner
+from biosecurity.shared import reactivateMariner
+from biosecurity.shared import deleteMariner
+from biosecurity.shared import adminOrStaffEditMariner
+from biosecurity.shared import guideDetails
+from biosecurity.shared import editGuideDetails
+from biosecurity.shared import deleteGuide
 
 
 @app.route("/admin/home")
