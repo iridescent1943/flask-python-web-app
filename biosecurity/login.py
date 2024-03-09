@@ -5,21 +5,8 @@ from biosecurity import app
 from flask_hashing import Hashing
 hashing = Hashing(app)
 
-import mysql.connector
-from mysql.connector import FieldType
-import connect
+from biosecurity.shared import getCursor
 
-cursor = None
-connection = None
-
-def getCursor():
-    global cursor
-    global connection
-    connection = mysql.connector.connect(user=connect.dbuser, \
-    password=connect.dbpass, host=connect.dbhost, \
-    database=connect.dbname, autocommit=True)
-    cursor = connection.cursor()
-    return cursor
 
 @app.route("/")
 def visit():

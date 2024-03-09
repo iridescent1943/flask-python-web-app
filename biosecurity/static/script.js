@@ -54,6 +54,30 @@ function checkPasswordDuringRegistration() {
         }
 }
 
+function checkPasswordWhenAddingStaff() {
+    var Password = document.getElementById("setStaffpassword").value;
+    var confirmPassword = document.getElementById("setStaffpassword1").value;
+    var submit = document.getElementById("to_be_activated_addstaff");
+    var message = document.getElementById("messageWhenAddingStaff");
+    
+    // Regular expression for checking password complexity
+    var pwdRegex = /^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[^a-zA-Z0-9]).{8,30}$/;
+
+        if (Password === confirmPassword) {
+            // Check if the password meets the strength criteria
+            if (pwdRegex.test(Password)) {
+                message.innerHTML = "<br><font color='green'>Passwords match and meet complexity requirements.</font>";
+                submit.disabled = false;
+            } else {
+                message.innerHTML = "<br><font color='red'>Passwords match but do not meet complexity requirements.</font>";
+                submit.disabled = true;
+            }
+        } else {
+            message.innerHTML = "<br><font color='red'>Passwords do not match!</font>";
+            submit.disabled = true;
+        }
+}
+
 
 document.addEventListener("DOMContentLoaded", function() {
     // Get the element with id="defaultOpen" and click on it

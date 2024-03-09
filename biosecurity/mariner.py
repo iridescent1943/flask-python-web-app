@@ -59,7 +59,8 @@ def editMarinerProfile():
         return redirect("/staff/profile/edit")
     elif "loggedin" in session and session["user_role"] == "mariner": 
         user_id = session.get('user_id')
-        cursor = getCursor()            
+        cursor = getCursor()
+        # Fetch mariner profile details        
         sql1 = """
         SELECT first_name, last_name, email, phone, address
         FROM user INNER JOIN mariner
@@ -68,6 +69,7 @@ def editMarinerProfile():
         """
         cursor.execute(sql1, (user_id,))
         PROFILE = cursor.fetchone()
+        # if the user sends the request to update the profile details
         if request.method == "POST":
             first_name = request.form.get("first_name")
             last_name = request.form.get("last_name")
@@ -83,7 +85,7 @@ def editMarinerProfile():
             return redirect(url_for('marinerProfile'))
         else:
             return render_template('mariner_profile_edit.html', user_role= session['user_role'], username=session['username'], profile=PROFILE)
-    else: # User is not loggedin, redirect to login page
+    else: 
         flash("Authorized users only. Please log in.", "error")
         return redirect(url_for('login'))
 
@@ -96,7 +98,7 @@ def marinerChangePassword():
         return redirect("/staff/changepassword")
     elif "loggedin" in session and session["user_role"] == "mariner":    
         return changePassword()
-    else: # User is not loggedin, redirect to login page
+    else: 
         flash("Authorized users only. Please log in.", "error")
         return redirect(url_for('login'))
     

@@ -38,18 +38,29 @@
           <input type="text" id="email" name="email" class="form-control" required>
         </div> 
 
-        <div class="col-sm-6">
+        <div class="col-sm-12">
           <label for="username" class="form-label">Login username</label>
+          <p class="text-muted"><small><i>Minimum 4 characters. Username cannot be changed later. Pleas choose one carefully.</i></small></p>
           <input type="text" class="form-control" name="username" required>
         </div>
 
-        <div class="col-sm-6">
+        <div class="col-sm-12">
           <label for="password" class="form-label">Login password</label>
-          <input type="password" class="form-control" name="password" required>
-        </div>         
+          <p class="text-muted"><small><i>Minimum 8 characters. It must contain at least one uppercase (A-Z), one lowercase (a-z), one number (0-9) and one special character (e.g. #, $, !, @, ^, &, *, etc).</i></small></p>
+          <input type="password" class="form-control" id="setStaffpassword" name="setStaffpassword" oninput="checkPasswordWhenAddingStaff()" required>
+        </div> 
 
+        <div class="col-sm-12">
+          <label for="password" class="form-label">Confirm login password</label>
+          <input type="password" class="form-control" id="setStaffpassword1" name="setStaffpassword1" oninput="checkPasswordWhenAddingStaff()" required>
+        </div> 
+
+        <div class="col-sm-12" style="margin-top: 0;">
+          <span id="messageWhenAddingStaff"></span>
+        </div>
+    
         <div class="d-grid gap-2 col-sm-6">
-          <button type="submit" class="btn btn-info text-light">Add</button>
+          <button type="submit" id="to_be_activated_addstaff" class="btn btn-info text-light" disabled>Add</button>
         </div>
         
         <div class="d-grid gap-2 col-sm-6">

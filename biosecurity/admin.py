@@ -85,9 +85,10 @@ def addStaff():
     if 'loggedin' in session and session["user_role"] == "admin":
         user_role = session.get('user_role')
         cursor = getCursor()
+        # if the admin sends the request to add staff
         if request.method == "POST":
             username = request.form.get("username")
-            password = request.form.get("password")
+            password = request.form.get("setStaffpassword")
             hashed_password = hashing.hash_value(password, salt='rainbow')
             user_role = "staff"
             first_name = request.form.get("first_name")
@@ -96,14 +97,14 @@ def addStaff():
             position = request.form.get("position")
             work_phone = request.form.get("work_phone")            
             hire_date = request.form.get("hire_date")
-            email = request.form.get("email")
-            
-            # Check if the entered username already exists in the database
+            email = request.form.get("email")            
+            # Check if the entered username is available
             sql1 = "SELECT * FROM user WHERE username = %s;"
             cursor.execute(sql1, (username,))
             ACCOUNT = cursor.fetchone()
             if ACCOUNT is not None:
-                return "Username already exists. Please choose a different username."
+                flash("Username already exists. Please choose a different username.", "error")
+                return redirect(url_for('addStaff'))
             else:
                 # Username is available, continue to register the staff            
                 sql2 = """
@@ -127,14 +128,16 @@ def addStaff():
 @app.route("/admin/staff/edit/<staff_id>", methods=["GET", "POST"])
 def editStaff(staff_id):
     if 'loggedin' in session and session["user_role"] == "admin":
-        cursor = getCursor()            
+        cursor = getCursor()
+        # Fetch the profile details for the selected staff           
         sql1 = """
         SELECT first_name, last_name, email, work_phone, department, position, hire_date
         FROM staff
         WHERE staff_id = %s;
         """
         cursor.execute(sql1, (staff_id,))
-        PROFILE = cursor.fetchone()    
+        PROFILE = cursor.fetchone() 
+        # if the admin sends the request to edit staff profile  
         if request.method == "POST":
             first_name = request.form.get("first_name")
             last_name = request.form.get("last_name")
@@ -158,7 +161,6 @@ def editStaff(staff_id):
         return redirect(url_for('login'))
 
 
-
 @app.route("/admin/staff/inactivate/<staff_id>", methods=["GET", "POST"])
 def inactivateStaff(staff_id):    
     if 'loggedin' in session and session["user_role"] == "admin":
@@ -170,7 +172,7 @@ def inactivateStaff(staff_id):
             WHERE staff_id = %s;
             """
             cursor.execute(sql, (staff_id,))
-            flash("Staff account inactivated successfully.", "success")
+            flash("Selected staff account inactivated successfully.", "success")
             return redirect(url_for('staffList'))  
         else:
             return redirect(url_for('staffList'))        
@@ -190,7 +192,7 @@ def reactivateStaff(staff_id):
             WHERE staff_id = %s;
             """
             cursor.execute(sql, (staff_id,))
-            flash("Staff account reactivated successfully.", "success")
+            flash("Selected staff account reactivated successfully.", "success")
             return redirect(url_for('staffList'))  
         else:
             return redirect(url_for('staffList'))        
@@ -206,7 +208,7 @@ def deleteStaff(user_id):
             cursor = getCursor()
             sql = "DELETE FROM user WHERE user_id = %s;"
             cursor.execute(sql, (user_id,))
-            flash("Staff account deleted successfully.", "success")
+            flash("Selected staff accountdeleted successfully.", "success")
             return redirect(url_for('staffList'))  
         else:
             return redirect(url_for('staffList'))        
@@ -239,7 +241,7 @@ def adminInactivateMariner(mariner_id):
         return inactivateMariner(mariner_id)
     else:
         flash("Authorized users only. Please log in.", "error")
-        return redirect(url_for('login')) 
+        return redirect(url_for('login'))
 
 
 @app.route("/admin/mariner/reactivate/<mariner_id>", methods=["GET", "POST"])
@@ -303,4 +305,3 @@ def adminDeleteGuide(ocean_id):
     else:
         flash("Authorized users only. Please log in.", "error")
         return redirect(url_for('login'))
-

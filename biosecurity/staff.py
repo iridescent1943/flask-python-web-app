@@ -1,5 +1,3 @@
-from flask import render_template
-from flask import request
 from flask import redirect
 from flask import url_for
 from flask import session
@@ -89,7 +87,7 @@ def staffEditMariner(mariner_id):
     else:
         flash("Authorized users only. Please log in.", "error")
         return redirect(url_for('login'))
-    
+        
 
 @app.route("/staff/mariner/inactivate/<mariner_id>", methods=["GET", "POST"])
 def staffInactivateMariner(mariner_id): 
@@ -122,7 +120,6 @@ def staffDeleteMariner(user_id):
     else:
         flash("Authorized users only. Please log in.", "error")
         return redirect(url_for('login')) 
-
     
     
 @app.route("/staff/guidelist")
@@ -156,7 +153,6 @@ def staffGuideDetails(ocean_id):
     else:
         flash("Authorized users only. Please log in.", "error")
         return redirect(url_for('login'))   
-
     
 
 @app.route("/staff/guide/edit/<ocean_id>", methods=["GET", "POST"])

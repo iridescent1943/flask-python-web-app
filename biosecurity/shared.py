@@ -435,7 +435,7 @@ def deleteGuideImage(ocean_id, image_name):
         cursor.execute(sql, (ocean_id, image_name)) 
         # delete the image file from the uploads folder as well  
         os.remove(os.path.join(app.config['UPLOAD_FOLDER'], image_name))
-        # since the user can immediately notice if the image is deleted
+        # since the user can immediately notice if the image is deleted when redirected to the page
         # so no need to flash a message here
         if session["user_role"] == "admin":
             return redirect(f"/admin/guide/edit/{ocean_id}")
