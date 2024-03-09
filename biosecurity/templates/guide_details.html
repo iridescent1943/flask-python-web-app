@@ -1,9 +1,9 @@
 {% extends "base1.html" %}
-{% block title %} Home {% endblock %}
+{% block title %} {{ guide[0]}} {% endblock %}
 
 {% block content %}   
 
-<div id="main-body" class="container-md"> 
+<div class="container-sm"> 
     
     {% if guide[2] == 'pest' and guide[3] == 'yes' %}
     <style> body{background-color: #f6c986;} </style>
@@ -19,9 +19,9 @@
 
     <h4 class="offcanvas-title pt-3"><i class="bi bi-substack"></i> {{ guide[0]}}
         {% if user_role == 'admin' %} 
-            <a href="/admin/guide/edit/{{ ocean_id }}"><i class="fa-solid fa-pen"></i></a>
+            <a href="/admin/guide/edit/{{ ocean_id }}" style="color: #468AC6;"><i class="fa-solid fa-pencil"></i></a>
             {% elif user_role == 'staff' %}
-            <a href="/staff/guide/edit/{{ ocean_id }}"><i class="fa-solid fa-pen"></i></a>    
+            <a href="/staff/guide/edit/{{ ocean_id }}" style="color: #468AC6;"><i class="fa-solid fa-pencil"></i></a>    
         {% endif %}          
     </h4>
     <hr class="border-secondary border-2">
