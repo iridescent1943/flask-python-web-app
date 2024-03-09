@@ -4,6 +4,7 @@ from flask import redirect
 from flask import url_for
 from flask import session
 from flask import flash
+from datetime import date
 
 from biosecurity import app
 from flask_hashing import Hashing
@@ -85,6 +86,7 @@ def addStaff():
     if 'loggedin' in session and session["user_role"] == "admin":
         user_role = session.get('user_role')
         cursor = getCursor()
+        today = date.today()
         # if the admin sends the request to add staff
         if request.method == "POST":
             username = request.form.get("username")
@@ -119,7 +121,7 @@ def addStaff():
                 flash ("Staff added successfully.", "success")      
                 return redirect(url_for('staffList'))
         else:
-            return render_template('add_staff.html', user_role= user_role, username=session['username'])
+            return render_template('add_staff.html', user_role= user_role, username=session['username'], today = today)
     else:
         flash("Authorized users only. Please log in.", "error")
         return redirect(url_for('login'))
@@ -129,6 +131,7 @@ def addStaff():
 def editStaff(staff_id):
     if 'loggedin' in session and session["user_role"] == "admin":
         cursor = getCursor()
+        today = date.today()
         # Fetch the profile details for the selected staff           
         sql1 = """
         SELECT first_name, last_name, email, work_phone, department, position, hire_date
@@ -155,7 +158,7 @@ def editStaff(staff_id):
             flash("Staff details updated successfully.", "success")
             return redirect(url_for('staffList'))
         else:
-            return render_template('staff_profile_edited_by.html', user_role = session["user_role"], username=session['username'], profile=PROFILE, staff_id=staff_id)
+            return render_template('staff_profile_edited_by.html', user_role = session["user_role"], username=session['username'], profile=PROFILE, staff_id=staff_id, today = today)
     else:
         flash("Authorized users only. Please log in.", "error")
         return redirect(url_for('login'))

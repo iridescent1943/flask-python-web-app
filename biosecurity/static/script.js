@@ -10,9 +10,10 @@ function checkPassword() {
 
     // Check if the new password is different from the old password
     if (newPassword !== oldPassword) {
-        // Check if the passwords match
+        // If the new password is different from the old password
+        // Continue to check if the passwords match
         if (newPassword === confirmPassword) {
-            // Check if the password meets the strength criteria
+            // Continue to check if the new password meets the strength criteria
             if (pwdRegex.test(newPassword)) {
                 msg.innerHTML = "<br><font color='green'>Passwords match and meet complexity requirements.</font>";
                 submit.disabled = false;
@@ -30,6 +31,7 @@ function checkPassword() {
     }
 }
 
+
 function checkPasswordDuringRegistration() {
     var Password = document.getElementById("password1").value;
     var confirmPassword = document.getElementById("password2").value;
@@ -38,9 +40,9 @@ function checkPasswordDuringRegistration() {
     
     // Regular expression for checking password complexity
     var pwdRegex = /^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[^a-zA-Z0-9]).{8,30}$/;
-
+        // Check if the passwords entered match
         if (Password === confirmPassword) {
-            // Check if the password meets the strength criteria
+            // Continue to check if the password meets the strength criteria
             if (pwdRegex.test(Password)) {
                 message.innerHTML = "<br><font color='green'>Passwords match and meet complexity requirements.</font>";
                 submit.disabled = false;
@@ -53,6 +55,7 @@ function checkPasswordDuringRegistration() {
             submit.disabled = true;
         }
 }
+
 
 function checkPasswordWhenAddingStaff() {
     var Password = document.getElementById("setStaffpassword").value;
@@ -62,9 +65,9 @@ function checkPasswordWhenAddingStaff() {
     
     // Regular expression for checking password complexity
     var pwdRegex = /^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[^a-zA-Z0-9]).{8,30}$/;
-
+        // Check if the passwords entered match
         if (Password === confirmPassword) {
-            // Check if the password meets the strength criteria
+            // Continue to check if the password meets the strength criteria
             if (pwdRegex.test(Password)) {
                 message.innerHTML = "<br><font color='green'>Passwords match and meet complexity requirements.</font>";
                 submit.disabled = false;
@@ -80,12 +83,13 @@ function checkPasswordWhenAddingStaff() {
 
 
 document.addEventListener("DOMContentLoaded", function() {
-    // Get the element with id="defaultOpen" and click on it
+    // Get the element with the id "defaultOpen" and click on it
     document.getElementById("defaultOpen").click();
 });
 
+
 document.addEventListener("DOMContentLoaded", function() {
-    // Get the element with id="defaultOpen" and click on it
+    // Get the element with the id "openSlideShow" and click on it
     document.getElementById("openSlideShow").click();
 });
 
@@ -104,7 +108,8 @@ function openPage(pageName,elmnt,color) {
     elmnt.style.backgroundColor = color;
   }
 
-   
+
+// Pass data to modal when the modal is opened
 document.addEventListener('DOMContentLoaded', function () {
     var myModal = new bootstrap.Modal(document.getElementById('inactivateStaffModal'));
     myModal._element.addEventListener('show.bs.modal', function (event) {
@@ -113,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-
+// Pass data to modal when the modal is opened
 document.addEventListener('DOMContentLoaded', function () {
     var myModal = new bootstrap.Modal(document.getElementById('reactivateStaffModal'));
     myModal._element.addEventListener('show.bs.modal', function (event) {
@@ -122,7 +127,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-
+// Pass data to modal when the modal is opened
 document.addEventListener('DOMContentLoaded', function () {
     var myModal = new bootstrap.Modal(document.getElementById('deleteStaffModal'));
     myModal._element.addEventListener('show.bs.modal', function (event) {
@@ -131,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-
+// Pass data to modal when the modal is opened
 document.addEventListener('DOMContentLoaded', function () {
     var myModal = new bootstrap.Modal(document.getElementById('inactivateMarinerModal'));
     myModal._element.addEventListener('show.bs.modal', function (event) {
@@ -140,7 +145,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-
+// Pass data to modal when the modal is opened
 document.addEventListener('DOMContentLoaded', function () {
     var myModal = new bootstrap.Modal(document.getElementById('inactivateMarinerModal1'));
     myModal._element.addEventListener('show.bs.modal', function (event) {
@@ -149,7 +154,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-
+// Pass data to modal when the modal is opened
 document.addEventListener('DOMContentLoaded', function () {
     var myModal = new bootstrap.Modal(document.getElementById('reactivateMarinerModal'));
     myModal._element.addEventListener('show.bs.modal', function (event) {
@@ -158,7 +163,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-
+// Pass data to modal when the modal is opened
 document.addEventListener('DOMContentLoaded', function () {
     var myModal = new bootstrap.Modal(document.getElementById('reactivateMarinerModal1'));
     myModal._element.addEventListener('show.bs.modal', function (event) {
@@ -167,7 +172,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-
+// Pass data to modal when the modal is opened
 document.addEventListener('DOMContentLoaded', function () {
     var myModal = new bootstrap.Modal(document.getElementById('deleteMarinerModal'));
     myModal._element.addEventListener('show.bs.modal', function (event) {
@@ -176,7 +181,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-
+// Pass data to modal when the modal is opened
 document.addEventListener('DOMContentLoaded', function () {
     var myModal = new bootstrap.Modal(document.getElementById('deleteMarinerModal1'));
     myModal._element.addEventListener('show.bs.modal', function (event) {
@@ -185,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-
+// Pass data to modal when the modal is opened
 document.addEventListener('DOMContentLoaded', function () {
     var myModal = new bootstrap.Modal(document.getElementById('deleteGuideModal'));
     myModal._element.addEventListener('show.bs.modal', function (event) {
@@ -194,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-
+// Pass data to modal when the modal is opened
 document.addEventListener('DOMContentLoaded', function () {
     var myModal = new bootstrap.Modal(document.getElementById('deleteGuideModal1'));
     myModal._element.addEventListener('show.bs.modal', function (event) {
@@ -203,8 +208,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-
-
+// Pass data to modal when the modal is opened
 document.addEventListener('DOMContentLoaded', function () {
     var myModal = new bootstrap.Modal(document.getElementById('deleteGuideImageModal'));
     myModal._element.addEventListener('show.bs.modal', function (event) {
@@ -215,16 +219,14 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-// Image Slideshow 
+// JavaScripts for slideshow on the guide details page
 let slideIndex = 1;
 showSlides(slideIndex);
 
-// Next/previous controls
 function plusSlides(n) {
   showSlides(slideIndex += n);
 }
 
-// Thumbnail image controls
 function currentSlide(n) {
   showSlides(slideIndex = n);
 }

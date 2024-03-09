@@ -13,14 +13,15 @@
     {% elif user_role == 'staff' %}
         <form class="row g-3" action="/staff/guide/edit/{{guide[0]}}" method="post">
     {% endif %}    
+
             <div class="col-sm-6">
                 <label for="common_name" class="form-label">Common name</label>
-                <input type="text" name="common_name" class="form-control" value ="{{guide[3]}}" required>
+                <input type="text" name="common_name" class="form-control" value ="{{guide[3]}}" maxlength="100" required>
             </div>
 
             <div class="col-sm-6">
                 <label for="scientific_name" class="form-label">Scientific name</label>
-                <input type="text" name="scientific_name" class="form-control" value ="{{guide[4]}}" required>
+                <input type="text" name="scientific_name" class="form-control" value ="{{guide[4]}}" maxlength="100" required>
             </div>
 
             <div class="col-sm-6">
@@ -58,20 +59,20 @@
 
             <div class="col-sm-12">
                 <label for="threats" class="form-label">Threats</label>
-                <textarea name="threats" class="form-control" rows="5" required>{{guide[6]}}</textarea>
+                <textarea name="threats" class="form-control" rows="5">{{guide[6]}}</textarea>
             </div>
 
             <div class="col-sm-12">
                 <label for="key_characteristics" class="form-label">Key characteristics</label>
-                <textarea name="key_characteristics" class="form-control" rows="5" required>{{guide[7]}}</textarea>
+                <textarea name="key_characteristics" class="form-control" rows="5">{{guide[7]}}</textarea>
             </div>
 
             <div class="col-sm-12">
                 <label for="location" class="form-label">Location</label>
-                <textarea name="location" class="form-control" rows="5" required>{{guide[8]}}</textarea>
+                <textarea name="location" class="form-control" rows="5">{{guide[8]}}</textarea>
             </div>
 
-            <div class="col-12">
+            <div class="col-sm-12">
                 <label for="select_primary_image" class="form-label">Select primary image</label>
                 <select name="select_primary_image" class="form-select" required>
                     {% for image in images %}
@@ -84,7 +85,7 @@
                 </select>
             </div> 
 
-            <div class="col-12">
+            <div class="col-sm-12">
                 <label>Non-primary images</label>
                 <table class="table-borderless">
                 {% if non_primary_images | length == 0 %}
@@ -110,17 +111,17 @@
                 </table>
             </div>
 
-            <div class="col-12">
+            <div class="col-sm-12">
                 <a href="/guide/addimage/{{ guide[0] }}" role="button" class="btn btn-outline-success">
                     <i class="fa-regular fa-image"></i> Add image
                 </a>
             </div>
 
-            <div class="d-grid gap-2 col-6 mt-3 mb-3">
+            <div class="d-grid gap-2 col-sm-6 mt-3 mb-3">
             <button type="submit" class="btn btn-info text-light">Update</button>
             </div>
             
-            <div class="d-grid gap-2 col-6 mt-3 mb-3">
+            <div class="d-grid gap-2 col-sm-6 mt-3 mb-3">
             <a href="{% if user_role == 'admin' %}/admin/guidedetails/{{guide[0]}}{% elif user_role == 'staff' %}/staff/guidedetails/{{guide[0]}}{% endif %}" role="button" class="btn btn-secondary">Cancel</a>
             </div>
 
@@ -147,8 +148,6 @@
             </div>
           </div> 
         
-
-
 </div>
 
 {% endblock %}

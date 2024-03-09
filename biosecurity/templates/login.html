@@ -18,7 +18,7 @@
         <h4 class="offcanvas-title pt-1" style="color:#3a414a !important;"> <i class="fa-solid fa-fish"></i> Welcome <i class="fa-solid fa-fish fa-rotate-180 fa-xl"></i></h4>
       </div>
 
-      <form class="needs-validation pt-2" novalidate action="{{ url_for('login') }}" method="post">
+      <form class="needs-validation pt-2" novalidate action="{{ url_for('login') }}" method="post">     
         <div class="mb-3">
           <label for="username" class="form-label">Username</label>
           <input type="text" class="form-control" name="username" required>
@@ -26,6 +26,7 @@
             Please enter a username.
           </div>
         </div>
+
         <div class="mb-3">
           <label for="password" class="form-label">Password</label>
           <input type="password" class="form-control" name="password" required>
@@ -33,10 +34,12 @@
             Please enter a password.
           </div>
         </div>
+        
         <div class="d-grid gap-2">
           <button type="submit" class="btn btn-info text-light">Login</button>
         </div>
       </form>
+
 
       <div class="row text-center pt-2">
         <div class="col-5">
@@ -51,9 +54,8 @@
       </div>
       
       <div class="d-grid gap-2">
-        <a href="{{ url_for('register') }}" class="btn btn-success"  role="button">Register</a>
+        <a href="{{ url_for('register') }}" class="btn btn-success" role="button">Register</a>
       </div>
-
     </div>
 
   </div>

@@ -96,8 +96,8 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              Are you sure you want to inactivate this mariner? 
-              Once inactivated, the mariner cannot access the website anymore.
+              Are you sure you want to inactivate this mariner?<br>
+              Once inactivated, this mariner cannot access the website anymore.
             </div>
             {% if user_role == 'admin' %}
               <form id="inactivateMariner" action="/admin/mariner/inactivate/mariner_id" method="post">
@@ -142,6 +142,7 @@
         </div>
       </div>
 
+
       {% if user_role == 'admin' %}
         <div class="modal fade" id="deleteMarinerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       {% elif user_role == 'staff' %}
@@ -154,7 +155,8 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              Are you sure you want to delete this mariner?           
+              Are you sure you want to permanently delete this mariner? <br>
+              Once deleted, related data cannot be recovered.         
             </div>
             {% if user_role == 'admin' %}
               <form id="deleteMariner" action="/admin/mariner/delete/user_id" method="post">

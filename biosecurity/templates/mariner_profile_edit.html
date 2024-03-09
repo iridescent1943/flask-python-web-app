@@ -8,34 +8,54 @@
   <h4 class="offcanvas-title pt-3"><i class="fa-solid fa-user-pen"></i> Edit My Profile</h4>
     <hr class="border-secondary border-2">
 
-    <form action="{{ url_for('editMarinerProfile')}}" method="post" class="row g-3 pb-3">
-        <div class="col-md-6">
+    <form class="row g-3 pb-3 needs-validation" novalidate action="{{ url_for('editMarinerProfile')}}" method="post">
+        
+      <div class="col-sm-6">
           <label for="first_name" class="form-label">First name</label>
-          <input type="text" name="first_name" class="form-control" value="{{ profile[0] }}">
+          <input type="text" name="first_name" class="form-control" value="{{ profile[0] }}" maxlength="50" pattern="[A-Za-z]{1,50}" required>
+          <div class="invalid-feedback">
+            Please enter a valid first name.
+            </div>
         </div>
+        
         <div class="col-sm-6">
           <label for="last_name" class="form-label">Last name</label>
-          <input type="text" name="last_name" class="form-control" value="{{ profile[1] }}">
+          <input type="text" name="last_name" class="form-control" value="{{ profile[1] }}" maxlength="50" pattern="[A-Za-z]{1,50}">
+          <div class="invalid-feedback">
+            Please enter a valid last name.
+            </div>
         </div>
+        
         <div class="col-sm-12">
           <label for="email" class="form-label">Email</label>
-          <input type="email" name="email" class="form-control" value="{{ profile[2] }}">
+          <input type="email" name="email" class="form-control" value="{{ profile[2] }}" maxlength="100" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" required>
+          <div class="invalid-feedback">
+            Please enter a valid email address.
+            </div>
         </div>
+        
         <div class="col-sm-12">
           <label for="phone" class="form-label">Phone</label>
-          <input type="tel" name="phone" class="form-control" value="{{ profile[3] }}">
+          <input type="tel" name="phone" class="form-control" value="{{ profile[3] }}" maxlength="15" pattern="^(?:\+?64|0)[2-9]\d{7,15}$" placeholder="optional">
+          <div class="invalid-feedback">
+            Please enter a valid phone number, spaces and hyphens are not needed.
+            </div>
         </div>
+        
         <div class="col-sm-12">
           <label for="address" class="form-label">Address</label>
-          <input type="text" name="address" class="form-control" value="{{ profile[4] }}">
+          <input type="text" name="address" class="form-control" value="{{ profile[4] }}" maxlength="100">
         </div>
+        
         <div class="d-grid gap-2 col-sm-6">
           <button type="submit" class="btn btn-info text-light">Update</button>
         </div>
+        
         <div class="d-grid gap-2 col-sm-6">
           <a href="{{ url_for('marinerHome') }}" role="button" class="btn btn-secondary">Cancel</a>
         </div>  
-      </form>      
+
+    </form>      
 </div>
 
 {% endblock %}

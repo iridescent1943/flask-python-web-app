@@ -28,9 +28,8 @@
     font-optical-sizing: auto;
     font-weight: 500;
     font-style: normal;
-  } 
-      
-  /* Set height of body and the document to 100% */
+  }       
+
   body, html {
     height: 100%;
     margin: 0;
@@ -38,7 +37,7 @@
     font-family: Arial;
   }
   
-  /* Style tab links */
+  /* styling for tab links on the home page */
   .guidelink {
     background-color: #979ea8;
     color: white;
@@ -52,11 +51,12 @@
     width: 25%;
   }
   
+   /* styling for tab links on the home page */
   .guidelink:hover {
     background-color:#b7babe;
   }
   
-  /* Style the tab content (and add height:100% for full page content) */
+  /* styling for tab content on the home page */
   .guidecontent {
     color:white;
     display: none;
@@ -64,11 +64,13 @@
     height: 100%;
   }
   
+  /* styling for background colors of tabs on the home page */
   #pest_in_nz {background-color:#f6c986;}
   #disease_in_nz {background-color: #dfb4b4;}
   #pest_not_in_nz {background-color: #d6c876;}
   #disease_not_in_nz {background-color:#B6A6CA;}
 
+  /* change the color of bootstrap button */
   .btn-info {
     background-color: #468AC6 !important; /* Background color */
     border-color: #468AC6 !important; /* Border color */
@@ -94,7 +96,7 @@
     color: white !important; /* Set the desired light color for text on hover */
 }
 
-
+ /* change the background color of bootstrap dropdown menu */
 .dropdown-menu a:hover {background-color: #f2f3f5 !important}
 
 .dashboard-link {
@@ -108,7 +110,7 @@
   text-decoration: underline; 
 }
 
-
+/* change the color of bootstrap tooltip */
 :root{
   --tooltip-color: #fcce14;}
 
@@ -119,16 +121,9 @@
 .color-tooltip.bs-tooltip-end > .tooltip-arrow::before, .color-tooltip.bs-tooltip-auto[data-popper-placement^=right] > .tooltip-arrow::before {border-right-color: var(--tooltip-color);}
 
 
-@media (min-width:576px){
-  .img-fluid {
-    width: 90%
-  } 
-}
-
-
+/* styling for the slideshow */
 * {box-sizing: border-box}
 .mySlides {display: none}
-/* Slideshow container */
 
 .slideshow-container {
   max-width: 500px;
@@ -136,7 +131,6 @@
   margin: auto;
 }
 
-/* Next & previous buttons */
 .prev-slide, .next-slide {
   cursor: pointer;
   position: absolute;
@@ -152,18 +146,15 @@
   user-select: none;
 }
 
-/* Position the "next button" to the right */
 .next-slide {
   right: 0;
   border-radius: 3px 0 0 3px;
 }
 
-/* On hover, add a black background color with a little bit see-through */
 .prev-slide:hover, .next-slide:hover {
   background-color: rgba(0,0,0,0.8);
 }
 
-/* Caption text */
 .image-caption {
   color: #f2f2f2;
   font-size: 15px;
@@ -174,7 +165,6 @@
   text-align: center;
 }
 
-/* Number text (1/3 etc) */
 .numbertext {
   color: #f2f2f2;
   font-size: 12px;
@@ -183,7 +173,6 @@
   top: 0;
 }
 
-/* The dots/bullets/indicators */
 .slideDot {
   cursor: pointer;
   height: 15px;
@@ -199,7 +188,6 @@
   background-color: #717171;
 }
 
-/* Fading animation */
 .mySlidesfade {
   animation-name: fade;
   animation-duration: 1.5s;
@@ -210,7 +198,6 @@
   to {opacity: 1}
 }
 
-/* On smaller screens, decrease text size */
 @media only screen and (max-width: 300px) {
   .prev-slide, .next-slide,.image-caption {font-size: 11px}
 }

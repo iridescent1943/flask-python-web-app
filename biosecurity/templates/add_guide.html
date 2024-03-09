@@ -8,62 +8,89 @@
     <h4 class="offcanvas-title pt-3"><i class="fa-solid fa-file-circle-plus"></i> New Guide</h4>
         <hr class="border-secondary border-2">
         
-    <form class="row g-3" action="{% if user_role == 'admin' %}{{ url_for('adminAddGuide') }}{% elif user_role == 'staff' %}{{ url_for('staffAddGuide') }}{% endif %}" method="post" enctype="multipart/form-data">
+    <form class="row g-3 needs-validation" novalidate action="{% if user_role == 'admin' %}{{ url_for('adminAddGuide') }}{% elif user_role == 'staff' %}{{ url_for('staffAddGuide') }}{% endif %}" method="post" enctype="multipart/form-data">
+        
         <div class="col-sm-6">
-            <label for="common_name" class="form-label">Common name*</label>
-            <input type="text" name="common_name" class="form-control" required>
+            <label for="common_name" class="form-label">Common name<span class="text-danger">*</span></label>
+            <input type="text" name="common_name" class="form-control" maxlength="100" required>
+            <div class="invalid-feedback">
+                Please enter a valid common name.
+            </div>
         </div>
+
         <div class="col-sm-6">
-            <label for="scientific_name" class="form-label">Scientific name*</label>
-            <input type="text" name="scientific_name" class="form-control" required>
+            <label for="scientific_name" class="form-label">Scientific name<span class="text-danger">*</span></label>
+            <input type="text" name="scientific_name" class="form-control" maxlength="100" required>
+            <div class="invalid-feedback">
+                Please enter a valid scientific name.
+            </div>
         </div>
+
         <div class="col-sm-6">
-          <label for="ocean_item_type" class="form-label">Ocean item type*</label>
-          <select name="ocean_item_type" class="form-select" required>
-              <option value="" selected disabled>Choose...</option>
-              <option value="pest">Pest</option>
-              <option value="disease">Disease</option>
-          </select>
-      </div>
-      <div class="col-sm-6">
-        <label for="present_in_NZ" class="form-label">Present in NZ*</label>
-        <select name="present_in_NZ" class="form-select" required>
-            <option value="" selected disabled>Choose...</option>
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-        </select>
-    </div>
+            <label for="ocean_item_type" class="form-label">Ocean item type<span class="text-danger">*</span></label>
+            <select name="ocean_item_type" class="form-select" required>
+                <option value="" selected disabled>Choose...</option>
+                <option value="pest">Pest</option>
+                <option value="disease">Disease</option>
+            </select>
+            <div class="invalid-feedback">
+                Please choose one.
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <label for="present_in_NZ" class="form-label">Present in NZ<span class="text-danger">*</span></label>
+            <select name="present_in_NZ" class="form-select" required>
+                <option value="" selected disabled>Choose...</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select>
+            <div class="invalid-feedback">
+                Please choose one.
+            </div>
+        </div>
+
         <div class="col-sm-12">
-            <label for="description" class="form-label">Description*</label>
+            <label for="description" class="form-label">Description<span class="text-danger">*</span></label>
             <textarea name="description" class="form-control" rows="5" required></textarea>
+            <div class="invalid-feedback">
+                Please provide some information for the pest or disease.
+            </div>
         </div>
+
         <div class="col-sm-12">
             <label for="threats" class="form-label">Threats</label>
-            <textarea name="threats" class="form-control" rows="5" required></textarea>
+            <textarea name="threats" class="form-control" rows="5" placeholder="can be added later"></textarea>
         </div>
+        
         <div class="col-sm-12">
             <label for="key_characteristics" class="form-label">Key characteristics</label>
-            <textarea name="key_characteristics" class="form-control" rows="5" required></textarea>
+            <textarea name="key_characteristics" class="form-control" rows="5" placeholder="can be added later"></textarea>
         </div>
+        
         <div class="col-sm-12">
             <label for="location" class="form-label">Location</label>
-            <textarea name="location" class="form-control" rows="5" required></textarea>
+            <textarea name="location" class="form-control" rows="5" placeholder="can be added later"></textarea>
         </div>
 
-        <div class="col-12">
-            <label for="primary_image" class="form-label">Primay image*<small class="text-muted"> (JPG, JPEG, PNG or GIF)</small></label>
+        <div class="col-sm-12">
+            <label for="primary_image" class="form-label">Primay image<span class="text-danger">*</span><small class="text-muted"> (JPG, JPEG, PNG or GIF)</small></label>
             <input class="form-control" type="file" name="primary_image" accept="image/jpg, image/jpeg, image/png, image/gif" required>  
+            <div class="invalid-feedback">
+                Please upload one primary image.
+            </div>
         </div> 
 
-        <div class="col-12">
+        <div class="col-sm-12">
             <label for="non_primary_image" class="form-label">Non-primary images<small class="text-muted"> (JPG, JPEG, PNG or GIF)</small></label>
             <input class="form-control" type="file" name="non_primary_image" accept="image/jpg, image/jpeg, image/png, image/gif" multiple>
         </div> 
 
-        <div class="d-grid gap-2 col-6 mt-3 mb-3">
-          <button type="submit" class="btn btn-info text-light">Add</button>
+        <div class="d-grid gap-2 col-sm-6 mt-3 mb-3">
+            <button type="submit" class="btn btn-info text-light">Add</button>
         </div>
-        <div class="d-grid gap-2 col-6 mt-3 mb-3">
+        
+        <div class="d-grid gap-2 col-sm-6 mt-3 mb-3">
           <a href="{% if user_role == 'admin' %}{{ url_for('adminGuideList') }}{% elif user_role == 'staff' %}{{ url_for('staffGuideList') }}{% endif %}" role="button" class="btn btn-secondary">Cancel</a>
         </div>
 

@@ -8,37 +8,62 @@
     <h4 class="offcanvas-title pt-3"><i class="fa-solid fa-user-pen"></i> Edit My Profile</h4>
     <hr class="border-secondary border-2">
 
-    <form action="{% if user_role == 'admin' %}{{ url_for('editAdminProfile') }}{% elif user_role == 'staff' %}{{ url_for('editStaffProfile') }}{% endif %}" method="post" class="row g-3 pb-3">
+    <form class="row g-3 pb-3 needs-validation" novalidate action="{% if user_role == 'admin' %}{{ url_for('editAdminProfile') }}{% elif user_role == 'staff' %}{{ url_for('editStaffProfile') }}{% endif %}" method="post">
         <div class="col-sm-12">
             <label for="first_name" class="form-label">First name</label>
-            <input type="text" name="first_name" class="form-control" value="{{ profile[0] }}">
+            <input type="text" name="first_name" class="form-control" value="{{ profile[0] }}" maxlength="50" pattern="[A-Za-z]{1,50}" required>
+            <div class="invalid-feedback">
+                Please enter a valid first name.
+              </div>
         </div>
+
         <div class="col-sm-12">
             <label for="last_name" class="form-label">Last name</label>
-            <input type="text" name="last_name" class="form-control" value="{{ profile[1] }}">
+            <input type="text" name="last_name" class="form-control" value="{{ profile[1] }}" maxlength="50" pattern="[A-Za-z]{1,50}" required>
+            <div class="invalid-feedback">
+                Please enter a valid last name.
+            </div>
         </div>
+
         <div class="col-sm-12">
             <label for="department" class="form-label">Department</label>
-            <input type="text" name="department" class="form-control" value="{{ profile[4] }}">
+            <input type="text" name="department" class="form-control" value="{{ profile[4] }}" maxlength="50" required>
+            <div class="invalid-feedback">
+                Required field.
+              </div>
         </div>
+
         <div class="col-sm-12">
             <label for="position" class="form-label">Position</label>
-            <input type="text" name="position" class="form-control" value="{{ profile[5] }}">
+            <input type="text" name="position" class="form-control" value="{{ profile[5] }}" maxlength="50">
+            <div class="invalid-feedback">
+                Invalid input.
+            </div>
         </div>
+
         <div class="col-sm-12">
             <label for="work_phone" class="form-label">Work phone</label>
-            <input type="tel" name="work_phone" class="form-control" value="{{ profile[3] }}">
+            <input type="tel" name="work_phone" class="form-control" value="{{ profile[3] }}" maxlength="15" pattern="^(?:\+?64|0)[2-9]\d{7,15}$">
+            <div class="invalid-feedback">
+                Please enter a valid phone number, spaces and hyphens are not needed.
+            </div>
         </div>
+
         <div class="col-sm-12">
             <label for="email" class="form-label">Email</label>
-            <input type="email" name="email" class="form-control" value="{{ profile[2] }}">
+            <input type="email" name="email" class="form-control" value="{{ profile[2] }}" maxlength="100" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" required>
+            <div class="invalid-feedback">
+                Please enter a valid email.
+              </div>
         </div>
+
         <div class="d-grid gap-2 col-sm-6">
             <button type="submit" class="btn btn-info text-light">Update</button>
-          </div>
-          <div class="d-grid gap-2 col-sm-6">
+        </div>
+
+        <div class="d-grid gap-2 col-sm-6">
             <a href="{% if user_role == 'admin' %}{{ url_for('adminHome') }}{% elif user_role == 'staff' %}{{ url_for('staffHome') }}{% endif %}" role="button" class="btn btn-secondary">Cancel</a>
-          </div>
+        </div>
     </form>
 </div>
 

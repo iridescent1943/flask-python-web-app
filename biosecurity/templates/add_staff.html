@@ -8,64 +8,93 @@
     <h4 class="offcanvas-title pt-3"><i class="fa-solid fa-user-plus"></i> New Staff</h4>
         <hr class="border-secondary border-2">
         
-    <form action="{{ url_for('addStaff')}}" method="post" class="row g-3 pb-3">
+    <form class="row g-3 pb-3 needs-validation" novalidate action="{{ url_for('addStaff')}}" method="post">
+        
         <div class="col-sm-6">
-            <label for="first_name" class="form-label">First name</label>
-            <input type="text" id="first_name" name="first_name" class="form-control" required>
+            <label for="first_name" class="form-label">First name<span class="text-danger">*</span></label>
+            <input type="text" name="first_name" class="form-control" maxlength="50" pattern="[A-Za-z]{1,50}" required>
+            <div class="invalid-feedback">
+              Please enter a valid first name.
+            </div>
         </div>
+
         <div class="col-sm-6">
-            <label for="last_name" class="form-label">Last name</label>
-            <input type="text" id="last_name" name="last_name" class="form-control" required>
+            <label for="last_name" class="form-label">Last name<span class="text-danger">*</span></label>
+            <input type="text" name="last_name" class="form-control" maxlength="50" pattern="[A-Za-z]{1,50}" required>
+            <div class="invalid-feedback">
+              Please enter a valid last name.
+            </div>
         </div>
+
         <div class="col-sm-6">
-          <label for="department" class="form-label">Department</label>
-          <input type="text" id="department" name="department" class="form-control" required>
-      </div>
-      <div class="col-sm-6">
-          <label for="position" class="form-label">Position</label>
-          <input type="text" id="position" name="position" class="form-control" required>
-      </div> 
+          <label for="department" class="form-label">Department<span class="text-danger">*</span></label>
+          <input type="text" name="department" class="form-control" maxlength="50" required>
+          <div class="invalid-feedback">
+            Required field.
+          </div>
+        </div>
+
+        <div class="col-sm-6">
+            <label for="position" class="form-label">Position</label>
+            <input type="text" name="position" class="form-control" maxlength="50" placeholder="optional">
+        </div> 
+
         <div class="col-sm-6">
           <label for="work_phone" class="form-label">Work phone</label>
-          <input type="text" id="work_phone" name="work_phone" class="form-control" required>
+          <input type="text" name="work_phone" class="form-control" maxlength="15" pattern="^(?:\+?64|0)[2-9]\d{7,15}$" placeholder="optional">
+          <div class="invalid-feedback">
+            Please enter a valid phone number, spaces and hyphens are not needed.
+          </div>
         </div>
+
         <div class="col-sm-6">
           <label for="hire_date" class="form-label">Hire date</label>
-          <input type="date" id="hire_date" name="hire_date" class="form-control" required>
+          <input type="date" name="hire_date" class="form-control" max="{{today}}">
+          <!-- max="{{today}} is to unsure the user can only select the current or a past date.-->
         </div>
+
         <div class="col-sm-12">
-          <label for="email" class="form-label">Email</label>
-          <input type="text" id="email" name="email" class="form-control" required>
+          <label for="email" class="form-label">Email<span class="text-danger">*</span></label>
+          <input type="text" name="email" class="form-control" maxlength="100" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" required>
+          <div class="invalid-feedback">
+            Please enter a valid email.
+          </div>
         </div> 
 
         <div class="col-sm-12">
-          <label for="username" class="form-label">Login username</label>
+          <label for="username" class="form-label">Login username<span class="text-danger">*</span></label>
           <p class="text-muted"><small><i>Minimum 4 characters. Username cannot be changed later. Pleas choose one carefully.</i></small></p>
-          <input type="text" class="form-control" name="username" required>
+          <input type="text" class="form-control" name="username" minlength="4" required>
+          <div class="invalid-feedback">
+            Invalid username.
+          </div>
         </div>
 
         <div class="col-sm-12">
-          <label for="password" class="form-label">Login password</label>
-          <p class="text-muted"><small><i>Minimum 8 characters. It must contain at least one uppercase (A-Z), one lowercase (a-z), one number (0-9) and one special character (e.g. #, $, !, @, ^, &, *, etc).</i></small></p>
-          <input type="password" class="form-control" id="setStaffpassword" name="setStaffpassword" oninput="checkPasswordWhenAddingStaff()" required>
+          <label for="password" class="form-label">Login password<span class="text-danger">*</span></label>
+          <p class="text-muted"><small><i>Between 8 to 30 characters. It must contain at least one uppercase (A-Z), one lowercase (a-z), one number (0-9) and one special character (e.g. #, $, !, @, ^, &, *, etc).</i></small></p>
+          <input type="password" class="form-control" id="setStaffpassword" name="setStaffpassword" minlength="8" maxlength="30" oninput="checkPasswordWhenAddingStaff()" required>
         </div> 
 
         <div class="col-sm-12">
-          <label for="password" class="form-label">Confirm login password</label>
-          <input type="password" class="form-control" id="setStaffpassword1" name="setStaffpassword1" oninput="checkPasswordWhenAddingStaff()" required>
+          <label for="password" class="form-label">Confirm login password<span class="text-danger">*</span></label>
+          <input type="password" class="form-control" id="setStaffpassword1" name="setStaffpassword1" minlength="8" maxlength="30" oninput="checkPasswordWhenAddingStaff()" required>
         </div> 
 
         <div class="col-sm-12" style="margin-top: 0;">
           <span id="messageWhenAddingStaff"></span>
         </div>
     
-        <div class="d-grid gap-2 col-sm-6">
+        <div class="d-grid gap-2 col-sm-6 mb-3">
           <button type="submit" id="to_be_activated_addstaff" class="btn btn-info text-light" disabled>Add</button>
         </div>
         
-        <div class="d-grid gap-2 col-sm-6">
+        <div class="d-grid gap-2 col-sm-6 mb-3">
           <a href="{{ url_for('staffList') }}" role="button" class="btn btn-secondary">Cancel</a>
-        </div>        
-    </form> 
+        </div>
+
+    </form>
+
 </div>
+
 {% endblock %}
