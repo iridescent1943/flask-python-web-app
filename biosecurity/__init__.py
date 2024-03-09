@@ -1,5 +1,4 @@
 from flask import Flask
-from flask_hashing import Hashing
 
 app = Flask(__name__)
 app.secret_key = 'Summer*secrect@2024'
