@@ -67,7 +67,11 @@ def staffList():
     if 'loggedin' in session and session["user_role"] == "admin":
         user_role = session.get('user_role')
         cursor = getCursor()
-        sql = "SELECT * FROM staff"
+        sql = """        
+        SELECT staff_id, first_name, last_name, email, work_phone, department, position, hire_date, active_user, staff.user_id, user.user_role 
+        FROM staff INNER JOIN user ON staff.user_id = user.user_id
+        WHERE user.user_role = 'staff';
+        """
         cursor.execute(sql)
         ALL_STAFF = cursor.fetchall()
         return render_template('staff_list.html', user_role= user_role, all_staff=ALL_STAFF)

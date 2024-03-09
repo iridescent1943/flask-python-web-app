@@ -5,7 +5,7 @@
 
 <div id="main-body" class="container-md"> 
 
-    <h4 class="offcanvas-title pt-3"><i class="fa-solid fa-file-pen"></i> Update Guide Details</h4>
+    <h4 class="offcanvas-title pt-3"><i class="fa-solid fa-file-pen"></i> Edit Guide Details</h4>
         <hr class="border-secondary border-2">
     
     {% if user_role == 'admin' %}
@@ -13,82 +13,140 @@
     {% elif user_role == 'staff' %}
         <form class="row g-3" action="/staff/guide/edit/{{guide[0]}}" method="post">
     {% endif %}    
-        <div class="col-sm-6">
-            <label for="common_name" class="form-label">Common Name</label>
-            <input type="text" name="common_name" class="form-control" value ="{{guide[3]}}" required>
-        </div>
+            <div class="col-sm-6">
+                <label for="common_name" class="form-label">Common name</label>
+                <input type="text" name="common_name" class="form-control" value ="{{guide[3]}}" required>
+            </div>
 
-        <div class="col-sm-6">
-            <label for="scientific_name" class="form-label">Scientific Name</label>
-            <input type="text" name="scientific_name" class="form-control" value ="{{guide[4]}}" required>
-        </div>
+            <div class="col-sm-6">
+                <label for="scientific_name" class="form-label">Scientific name</label>
+                <input type="text" name="scientific_name" class="form-control" value ="{{guide[4]}}" required>
+            </div>
 
-        <div class="col-sm-6">
-          <label for="ocean_item_type" class="form-label">Ocean Item Type</label>
-          <select name="ocean_item_type" class="form-select" required>
-              <option value="" disabled>Choose...</option>
-              {% if guide[1] == 'pest' %}
-                <option value="pest" selected>Pest</option>
-                <option value="disease">Disease</option>
-              {% else %}
-                <option value="pest">Pest</option>
-                <option value="disease" selected>Disease</option>
-              {% endif %}
-          </select>
-        </div>
-
-        <div class="col-sm-6">
-            <label for="present_in_NZ" class="form-label">Present in NZ</label>
-            <select name="present_in_NZ" class="form-select" required>
+            <div class="col-sm-6">
+            <label for="ocean_item_type" class="form-label">Ocean item type</label>
+            <select name="ocean_item_type" class="form-select" required>
                 <option value="" disabled>Choose...</option>
-                {% if guide[2] == 'yes' %}
-                    <option value="yes" selected>Yes</option>
-                    <option value="no">No</option>
+                {% if guide[1] == 'pest' %}
+                    <option value="pest" selected>Pest</option>
+                    <option value="disease">Disease</option>
                 {% else %}
-                    <option value="yes">Yes</option>
-                    <option value="no" selected>No</option>
+                    <option value="pest">Pest</option>
+                    <option value="disease" selected>Disease</option>
                 {% endif %}
             </select>
-        </div>
+            </div>
 
-        <div class="col-sm-12">
-            <label for="description" class="form-label">Description</label>
-            <textarea name="description" class="form-control" rows="5" required>{{guide[5]}}</textarea>
-        </div>
+            <div class="col-sm-6">
+                <label for="present_in_NZ" class="form-label">Present in NZ</label>
+                <select name="present_in_NZ" class="form-select" required>
+                    <option value="" disabled>Choose...</option>
+                    {% if guide[2] == 'yes' %}
+                        <option value="yes" selected>Yes</option>
+                        <option value="no">No</option>
+                    {% else %}
+                        <option value="yes">Yes</option>
+                        <option value="no" selected>No</option>
+                    {% endif %}
+                </select>
+            </div>
 
-        <div class="col-sm-12">
-            <label for="threats" class="form-label">Threats</label>
-            <textarea name="threats" class="form-control" rows="5" required>{{guide[6]}}</textarea>
-        </div>
+            <div class="col-sm-12">
+                <label for="description" class="form-label">Description</label>
+                <textarea name="description" class="form-control" rows="5" required>{{guide[5]}}</textarea>
+            </div>
 
-        <div class="col-sm-12">
-            <label for="key_characteristics" class="form-label">Key Characteristics</label>
-            <textarea name="key_characteristics" class="form-control" rows="5" required>{{guide[7]}}</textarea>
-        </div>
+            <div class="col-sm-12">
+                <label for="threats" class="form-label">Threats</label>
+                <textarea name="threats" class="form-control" rows="5" required>{{guide[6]}}</textarea>
+            </div>
 
-        <div class="col-sm-12">
-            <label for="location" class="form-label">Location</label>
-            <textarea name="location" class="form-control" rows="5" required>{{guide[8]}}</textarea>
-        </div>
+            <div class="col-sm-12">
+                <label for="key_characteristics" class="form-label">Key characteristics</label>
+                <textarea name="key_characteristics" class="form-control" rows="5" required>{{guide[7]}}</textarea>
+            </div>
 
-        <div class="col-12">
-            <label for="primary_image" class="form-label">Primary Image</label>
-            <select name="primary_image" class="form-select" required>
-                <option value="" disabled>Choose...</option>
-                {% for image in images %}                
-                    <option value="{{image[1]}}">{{image[1]}}</option>
-                {% endfor %}
-            </select>
-        </div> 
+            <div class="col-sm-12">
+                <label for="location" class="form-label">Location</label>
+                <textarea name="location" class="form-control" rows="5" required>{{guide[8]}}</textarea>
+            </div>
 
-        <div class="d-grid gap-2 col-6 mt-3 mb-3">
-          <button type="submit" class="btn btn-info text-light">Update</button>
-        </div>
-        <div class="d-grid gap-2 col-6 mt-3 mb-3">
-          <a href="{% if user_role == 'admin' %}{{ url_for('adminGuideList') }}{% elif user_role == 'staff' %}{{ url_for('staffGuideList') }}{% endif %}" role="button" class="btn btn-secondary">Cancel</a>
-        </div>
+            <div class="col-12">
+                <label for="select_primary_image" class="form-label">Select primary image</label>
+                <select name="select_primary_image" class="form-select" required>
+                    {% for image in images %}
+                        {% if image[3] == 1 %}
+                            <option value="{{ image[2] }}" selected>{{image[4]}}</option>
+                        {% else %}
+                            <option value="{{ image[2] }}">{{image[4]}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div> 
 
-    </form>
+            <div class="col-12">
+                <label>Non-primary images</label>
+                <table class="table-borderless">
+                {% if non_primary_images | length == 0 %}
+                    <tr>
+                        <td><i><small>No non-primary images uploaded yet</small></i></td>
+                    </tr>
+                {% else %}
+                    {% for image in non_primary_images %}
+                        <tr>
+                            <td><img src="{{ image[2] }}" style="width:100px;height:100px;" alt="{{ image[1] }}"></td>
+                            <td>
+                                <a href="/guide/deleteimage/{{ image[0] }}/{{ image[3] }}" 
+                                   data-bs-toggle="modal"
+                                   data-bs-target="#deleteGuideImageModal" 
+                                   data-deleteimage-id="{{ image[0] }}"
+                                   data-deleteimage-name="{{ image[3] }}">
+                                   <i class="fa-solid fa-xmark"></i>
+                                </a> 
+                            </td>
+                        </tr>
+                    {% endfor %}                    
+                {% endif %}                    
+                </table>
+            </div>
+
+            <div class="col-12">
+                <a href="/guide/addimage/{{ guide[0] }}" role="button" class="btn btn-outline-success">
+                    <i class="fa-regular fa-image"></i> Add image
+                </a>
+            </div>
+
+            <div class="d-grid gap-2 col-6 mt-3 mb-3">
+            <button type="submit" class="btn btn-info text-light">Update</button>
+            </div>
+            
+            <div class="d-grid gap-2 col-6 mt-3 mb-3">
+            <a href="{% if user_role == 'admin' %}/admin/guidedetails/{{guide[0]}}{% elif user_role == 'staff' %}/staff/guidedetails/{{guide[0]}}{% endif %}" role="button" class="btn btn-secondary">Cancel</a>
+            </div>
+
+        </form>
+
+
+        <div class="modal fade" id="deleteGuideImageModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel"><i class="fa-solid fa-circle-exclamation"></i> Confirmation</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  Are you sure you want to delete this image ?           
+                </div>
+                <form id="deleteGuideImage" action="/guide/deleteimage/" method="post">
+                  <div class="modal-footer">
+                    <button type="submit" class="btn btn-info text-light">Continue</button>              
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  </div>
+              </form>
+              </div>
+            </div>
+          </div> 
+        
 
 
 </div>

@@ -30,10 +30,39 @@ function checkPassword() {
     }
 }
 
+function checkPasswordDuringRegistration() {
+    var Password = document.getElementById("password1").value;
+    var confirmPassword = document.getElementById("password2").value;
+    var submit = document.getElementById("to_be_activated_registration");
+    var message = document.getElementById("message");
+    
+    // Regular expression for checking password complexity
+    var pwdRegex = /^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[^a-zA-Z0-9]).{8,30}$/;
+
+        if (Password === confirmPassword) {
+            // Check if the password meets the strength criteria
+            if (pwdRegex.test(Password)) {
+                message.innerHTML = "<br><font color='green'>Passwords match and meet complexity requirements.</font>";
+                submit.disabled = false;
+            } else {
+                message.innerHTML = "<br><font color='red'>Passwords match but do not meet complexity requirements.</font>";
+                submit.disabled = true;
+            }
+        } else {
+            message.innerHTML = "<br><font color='red'>Passwords do not match!</font>";
+            submit.disabled = true;
+        }
+}
+
 
 document.addEventListener("DOMContentLoaded", function() {
     // Get the element with id="defaultOpen" and click on it
     document.getElementById("defaultOpen").click();
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Get the element with id="defaultOpen" and click on it
+    document.getElementById("openSlideShow").click();
 });
 
 
@@ -149,3 +178,45 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('deleteGuide1').action = "/admin/guide/delete/" + ocean_id;
     });
 });
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    var myModal = new bootstrap.Modal(document.getElementById('deleteGuideImageModal'));
+    myModal._element.addEventListener('show.bs.modal', function (event) {
+        var ocean_id = event.relatedTarget.getAttribute('data-deleteimage-id');
+        var image_name = event.relatedTarget.getAttribute('data-deleteimage-name');    
+        document.getElementById('deleteGuideImage').action = "/guide/deleteimage/" + ocean_id + "/" + image_name;
+    });
+});
+
+
+// Image Slideshow 
+let slideIndex = 1;
+showSlides(slideIndex);
+
+// Next/previous controls
+function plusSlides(n) {
+  showSlides(slideIndex += n);
+}
+
+// Thumbnail image controls
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+  let i;
+  let slides = document.getElementsByClassName("mySlides");
+  let dots = document.getElementsByClassName("slideDot");
+  if (n > slides.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+  for (i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "block";
+  dots[slideIndex-1].className += " active";
+}

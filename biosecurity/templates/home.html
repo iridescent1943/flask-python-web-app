@@ -29,8 +29,10 @@
               <p class="card-text">Present in NZ</p>
               {% if user_role == 'admin' %}
                 <a href="/admin/guidedetails/{{pest[0]}}" class="btn btn-outline-warning">More</a>
+                <a href="/admin/guide/edit/{{pest[0]}}" class="btn btn-outline-warning">Edit</a>
               {% elif user_role == 'staff' %}
                 <a href="/staff/guidedetails/{{pest[0]}}" class="btn btn-outline-warning">More</a>
+                <a href="/staff/guide/edit/{{pest[0]}}" class="btn btn-outline-warning">Edit</a>
               {% else %}  
                 <a href="/user/guidedetails/{{pest[0]}}" class="btn btn-outline-warning">More</a>     
               {% endif %}
@@ -61,8 +63,10 @@
               <p class="card-text">Present in NZ</p>
               {% if user_role == 'admin' %}
                 <a href="/admin/guidedetails/{{disease[0]}}" class="btn btn-outline-danger">More</a>
+                <a href="/admin/guide/edit/{{ disease[0]}}" class="btn btn-outline-danger">Edit</a>
               {% elif user_role == 'staff' %}
                 <a href="/staff/guidedetails/{{disease[0]}}" class="btn btn-outline-danger">More</a>
+                <a href="/staff/guide/edit/{{ disease[0]}}" class="btn btn-outline-danger">Edit</a>
               {% else %}  
                 <a href="/user/guidedetails/{{disease[0]}}" class="btn btn-outline-danger">More</a>  
               {% endif %}
@@ -92,8 +96,10 @@
               <p class="card-text">Not found to be in NZ yet</p>
               {% if user_role == 'admin' %}
                 <a href="/admin/guidedetails/{{pest[0]}}" class="btn btn-outline-warning">More</a>
+                <a href="/admin/guide/edit/{{pest[0]}}" class="btn btn-outline-warning">Edit</a>
               {% elif user_role == 'staff' %}
                 <a href="/staff/guidedetails/{{pest[0]}}" class="btn btn-outline-warning">More</a>
+                <a href="/staff/guide/edit/{{pest[0]}}" class="btn btn-outline-warning">Edit</a>
               {% else %}  
                 <a href="/user/guidedetails/{{pest[0]}}" class="btn btn-outline-warning">More</a>
               {% endif %}
@@ -123,8 +129,10 @@
               <p class="card-text">Not found to be in NZ yet</p>
               {% if user_role == 'admin' %}
               <a href="/admin/guidedetails/{{disease[0]}}" class="btn btn-outline-danger">More</a>
+              <a href="/admin/guide/edit/{{ disease[0]}}" class="btn btn-outline-danger">Edit</a>
               {% elif user_role == 'staff' %}
                 <a href="/staff/guidedetails/{{disease[0]}}" class="btn btn-outline-danger">More</a>
+                <a href="/staff/guide/edit/{{ disease[0]}}" class="btn btn-outline-danger">Edit</a>
               {% else %}  
                 <a href="/user/guidedetails/{{disease[0]}}" class="btn btn-outline-danger">More</a>  
               {% endif %}

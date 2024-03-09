@@ -17,15 +17,38 @@
         <style> body{background-color: white; color: black} </style>
     {% endif %}  
 
-    <h4 class="offcanvas-title pt-3"><i class="bi bi-substack"></i> {{ guide[0]}}</h4>
+    <h4 class="offcanvas-title pt-3"><i class="bi bi-substack"></i> {{ guide[0]}}
+        {% if user_role == 'admin' %} 
+            <a href="/admin/guide/edit/{{ ocean_id }}"><i class="fa-solid fa-pen"></i></a>
+            {% elif user_role == 'staff' %}
+            <a href="/staff/guide/edit/{{ ocean_id }}"><i class="fa-solid fa-pen"></i></a>    
+        {% endif %}          
+    </h4>
     <hr class="border-secondary border-2">
 
-    <div>
-      <img src="{{ guide[8] }}" style="height:100%;" class="img-fluid" alt="guide[0]" >
+    <div class="slideshow-container" >
+        {% for image in images %}
+            <div class="mySlides mySlidesfade">
+                <div class="numbertext">{{ loop.index }} / {{ loop.length }}</div>
+                <img src="{{ image[0] }}" style="width:100%" alt="{{ image[1] }}">
+                <div class="image-caption">{{ image[1] }}</div>
+            </div>
+        {% endfor %} 
+        <a class="prev-slide" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next-slide" onclick="plusSlides(1)">&#10095;</a>
     </div>
     <br>
+
+    <div style="text-align:center">
+        {% for image in images %}
+            <span class="slideDot" {% if loop.index == 1 %} id="openSlideShow" {% endif %} onclick="currentSlide({{ loop.index }})"></span>
+        {% endfor %}
+    </div>
+
+   
         
-    <h6>Scientific name: <i>{{ guide[1]}}</i><h6>
+    <h5>Scientific name: <i>{{ guide[1]}}</i><h5>
+    <br>
     <p>{% if guide[3] == "yes" %} Present in NZ {% else %} Not present in NZ {% endif %}</p>
     <br>
 

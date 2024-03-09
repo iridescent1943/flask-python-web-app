@@ -1,0 +1,30 @@
+{% extends "base1.html" %}
+{% block title %} Add Guide Image {% endblock %}
+
+{% block content %}
+
+<div id="main-body" class="container-md"> 
+
+    <h4 class="offcanvas-title pt-3"><i class="fa-regular fa-image"></i> Add Guide Image</h4>
+    <hr class="border-secondary border-2">
+
+
+    <form class="row g-3" action="/guide/addimage/{{ ocean_id }}" method="post" enctype="multipart/form-data">
+        <div class="col-12">
+          <label for="add_image_to_guide" class="form-label"><i><small class="text-muted">Only support JPG, JPEG, PNG or GIF</small></i></label>
+          <input class="form-control" type="file" name="add_image_to_guide" accept="image/jpg, image/jpeg, image/png, image/gif" required multiple>
+        </div> 
+
+        <div class="d-grid gap-2 col-6 mt-3 mb-3">
+          <button type="submit" class="btn btn-info text-light">Add</button>
+        </div>
+
+        <div class="d-grid gap-2 col-6 mt-3 mb-3">
+          <a href="{% if user_role == 'admin' %} /admin/guide/edit/{{ ocean_id }} {% elif user_role == 'staff' %} /staff/guide/edit/{{ ocean_id }}{% endif %}" role="button" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+
+</div>
+
+
+{% endblock %}

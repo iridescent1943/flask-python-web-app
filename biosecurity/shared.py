@@ -92,9 +92,9 @@ def changePassword():
             # If the old password is correct, update the password
             hashed_password = hashing.hash_value(new_password, salt='rainbow')
             sql2 = "UPDATE user SET password = %s WHERE user_id = %s;"
-            cursor.execute(sql2, (hashed_password, user_id))
+            cursor.execute(sql2, (hashed_password, user_id))            
             flash('Password changed successfully. Please log in with new password.', 'success')
-            return redirect(url_for('login'))
+            return redirect(url_for('logout'))
         else:
             flash('Old password is incorrect. Please try again.', 'error')
             return render_template('change_password.html', user_role = session["user_role"], username=session['username'],user_id = user_id)
@@ -216,14 +216,17 @@ def addGuide():
 
             ocean_id = cursor.lastrowid
 
-            sql2 = "INSERT INTO image (ocean_id, image_path, primary_image) VALUES (%s, %s, %s);"
-            cursor.execute(sql2, (ocean_id, image_path, '1'))
+            sql2 = "INSERT INTO image (ocean_id, image_path, image_name, primary_image) VALUES (%s, %s, %s, %s);"
+            cursor.execute(sql2, (ocean_id, image_path, filename, '1'))
         else:
             flash("Only JPG, JPEG, PNG or GIF files are allowed. Please try again. ", "error")
-
-        files= request.files.getlist("non_primary_image")    
-        print(f"list {files}")
-        for file in files: 
+            if session["user_role"] == "admin":
+                return redirect(url_for('adminAddGuide'))                                
+            else:
+                return redirect(url_for('staffAddGuide'))
+            
+        files= request.files.getlist("non_primary_image")
+        for file in files:
             if allowedFile(file.filename):
                 print("File is allowed.")
                 filename = secure_filename(file.filename)
@@ -234,8 +237,8 @@ def addGuide():
                 cursor.execute('SELECT last_insert_id()')
                 ocean_id = cursor.fetchone()[0]
 
-                sql3 = "INSERT INTO image (ocean_id, image_path) VALUES (%s, %s);"
-                cursor.execute(sql3, (ocean_id, image_path))
+                sql3 = "INSERT INTO image (ocean_id, image_path, image_name) VALUES (%s, %s, %s);"
+                cursor.execute(sql3, (ocean_id, image_path, filename))                    
                         
         if session["user_role"] == "admin":
             return redirect(url_for('adminGuideList'))                                
@@ -292,24 +295,45 @@ def getGuideImageList():
 def guideDetails(ocean_id):   
     cursor = getCursor()
     sql = """
-    SELECT guide.common_name, guide.scientific_name, guide.ocean_item_type, guide.present_in_NZ, guide.description, guide.threats, guide.key_characteristics, guide.location, image.image_path
+    SELECT common_name, scientific_name, ocean_item_type, present_in_NZ, description, threats, key_characteristics, location
     FROM guide
-    INNER JOIN image ON guide.ocean_id = image.ocean_id
-    WHERE guide.ocean_id = %s;
+    WHERE ocean_id = %s;
     """
     cursor.execute(sql, (ocean_id,))
     GUIDE = cursor.fetchone()
-    return render_template('guide_details.html', user_role= session['user_role'], username=session['username'], guide=GUIDE)
+
+    sql2 = "SELECT image_path, image_name FROM image WHERE ocean_id = %s;"
+    cursor.execute(sql2, (ocean_id,))
+    IMAGES = cursor.fetchall()
+
+    return render_template('guide_details.html', user_role= session['user_role'], username=session['username'], guide=GUIDE, images = IMAGES, ocean_id = ocean_id)
 
     
 def editGuideDetails(ocean_id):
     cursor = getCursor()
+
     sql1 = "SELECT * FROM guide WHERE ocean_id = %s;"
     cursor.execute(sql1, (ocean_id,))
     GUIDE = cursor.fetchone()
-    sql2 = "SELECT * FROM image WHERE ocean_id = %s;"
+    
+    sql2 = """
+        SELECT guide.ocean_id, guide.common_name, image.image_path, image.primary_image, image.image_name
+        FROM guide INNER JOIN image
+        ON guide.ocean_id = image.ocean_id
+        WHERE guide.ocean_id = %s;
+        """
     cursor.execute(sql2, (ocean_id,))
     IMAGES = cursor.fetchall()
+
+    sql3 = """
+        SELECT guide.ocean_id, guide.common_name, image.image_path, image.image_name
+        FROM guide INNER JOIN image
+        ON guide.ocean_id = image.ocean_id
+        WHERE guide.ocean_id = %s and primary_image = 0;
+        """
+    cursor.execute(sql3, (ocean_id,))
+    NON_PRIMARY_IMAGES = cursor.fetchall()
+
     if request.method == "POST":
         common_name = request.form.get("common_name")
         scientific_name = request.form.get("scientific_name")
@@ -319,29 +343,74 @@ def editGuideDetails(ocean_id):
         threats = request.form.get("threats")
         key_characteristics = request.form.get("key_characteristics")
         location = request.form.get("location")
-        primary_image = request.form.get("primary_image")
-        sql3 = """
-        UPDATE guide
-        SET common_name = %s, scientific_name = %s, ocean_item_type = %s, present_in_NZ = %s, description = %s, threats = %s, key_characteristics = %s, location = %s
-        WHERE ocean_id = %s;
-        """
-        cursor.execute(sql3, (common_name, scientific_name, ocean_item_type, present_in_NZ, description, threats, key_characteristics, location, ocean_id))
+        selected_image = request.form.get("select_primary_image")
+        
         sql4 = """
+            UPDATE guide
+            SET common_name = %s, scientific_name = %s, ocean_item_type = %s, present_in_NZ = %s, description = %s, threats = %s, key_characteristics = %s, location = %s
+            WHERE ocean_id = %s;
+            """
+        cursor.execute(sql4, (common_name, scientific_name, ocean_item_type, present_in_NZ, description, threats, key_characteristics, location, ocean_id))
+        
+        sql5 = """
             START TRANSACTION;
             UPDATE image
-            SET primary = 1
+            SET primary_image = 1
             WHERE ocean_id = %s and image_path = %s;
-            Set primary = 0
+            UPDATE image
+            SET primary_image = 0
             WHERE ocean_id = %s and image_path != %s;
             COMMIT;
-            """
-        cursor.execute(sql4, (ocean_id, primary_image, ocean_id, primary_image))
+        """
+        cursor.execute(sql5, (ocean_id, selected_image, ocean_id, selected_image))
+
+        
         if session["user_role"] == "admin":
-            return redirect(url_for('adminGuideDetails', ocean_id=ocean_id))
+            return redirect(url_for('adminGuideList', ocean_id=ocean_id))
         else:
-            return redirect(url_for('staffGuideDetails', ocean_id=ocean_id))
+            return redirect(url_for('staffGuideList', ocean_id=ocean_id))
     else:
-        return render_template('edit_guide.html', user_role = session["user_role"], username=session['username'], guide=GUIDE, images=IMAGES)
+        return render_template('edit_guide.html', user_role = session["user_role"], username=session['username'], guide=GUIDE, images=IMAGES, non_primary_images=NON_PRIMARY_IMAGES)
+
+
+@app.route("/guide/addimage/<ocean_id>", methods=["GET", "POST"])
+def addGuideImage(ocean_id): 
+    cursor = getCursor()   
+    if request.method == "POST":
+        files= request.files.getlist("add_image_to_guide")
+        for file in files:
+            if allowedFile(file.filename):
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                image_path = '/static/img/' + filename
+ 
+                sql = "INSERT INTO image (ocean_id, image_path, image_name) VALUES (%s, %s, %s);"
+                cursor.execute(sql, (ocean_id, image_path, filename))
+                if session["user_role"] == "admin":
+                    return redirect(f"/admin/guide/edit/{ocean_id}")
+                else:
+                    return redirect(f"/staff/guide/edit/{ocean_id}")
+        else:
+            flash("Only JPG, JPEG, PNG or GIF files are allowed. Please try again. ", "error")
+            if session["user_role"] == "admin":
+                return redirect(f"/admin/guide/edit/{ocean_id}")
+            else:
+                return redirect(f"/staff/guide/edit/{ocean_id}")
+    else:
+        return render_template("edit_guide_addimage.html", user_role = session["user_role"], username=session['username'], ocean_id = ocean_id)
+            
+
+@app.route("/guide/deleteimage/<ocean_id>/<image_name>", methods=["GET", "POST"])
+def deleteGuideImage(ocean_id, image_name): 
+    cursor = getCursor()
+    sql = "DELETE FROM image WHERE ocean_id = %s and image_name = %s;"
+    cursor.execute(sql, (ocean_id, image_name))    
+    os.remove(os.path.join(app.config['UPLOAD_FOLDER'], image_name))
+    
+    if session["user_role"] == "admin":
+        return redirect(f"/admin/guide/edit/{ocean_id}")
+    else:
+        return redirect(f"/staff/guide/edit/{ocean_id}")
 
 
 def deleteGuide(ocean_id):   
