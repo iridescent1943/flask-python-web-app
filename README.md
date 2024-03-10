@@ -25,13 +25,14 @@
 
 ***register:*** new mariner users can create an accounts for themselves through the register feature on the login page. staff accounts need to be created by the admin.
 
-***Sources page:*** A footer section is added to the guide detail page so the mariner users can check the references if needed.
+***sources page:*** A footer section is added to the guide detail page so the mariner users can check the references if needed.
 
-***Image upload:*** The app only support the upload of image with a english name at this stage.
+***image upload:*** The app only support the upload of image with a English name at this stage.
 
-## Section 3 Data Model
+## Section 3 Entity-Relationship Model
  <img src="biosecurity\static\img\database_structure.png" alt="database_structure" align=center />
 
 **Notes:**
-1. one user id can only correspond to either one mariner or one staff (admin is also a staff)
+1. one user id can only correspond to either one mariner or one staff (admin is also a staff).
 2. one guide can have many images.
+3. the mariner and staff table reference user table.
