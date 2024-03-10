@@ -78,11 +78,14 @@
 
 </div>
 
-<footer>
-    <div class="container-fluid mt-auto py-3" style="background-color: #468AC6 !important;">
-      <P class="d-flex justify-content-center text-light">Thank you for visiting our website. We endeavour to keep the information on the website as accurate as possible.<p>
-      <ul class="nav justify-content-center">
-        <li class="nav-item"><a href="{{ url_for('sourcesOfContentMaterial') }}" class="dashboard-link px-2 text-light">Click me to find out references of the content material <i class="fa-regular fa-face-smile"></i></a></li>
-    </div>
-  </footer>
+{% if user_role == 'mariner' %}
+    <footer>
+        <div class="container-fluid mt-auto py-3" style="background-color: #468AC6 !important;">
+        <P class="d-flex justify-content-center text-light">Thank you for visiting our website. We endeavour to keep the information on the website as accurate as possible.<p>
+        <ul class="nav justify-content-center">
+            <li class="nav-item"><a href="{{ url_for('sourcesOfContentMaterial') }}" class="dashboard-link px-2 text-light">Click me to find out references of the content material <i class="fa-regular fa-face-smile"></i></a></li>
+        </div>
+    </footer>
+{% endif %}
+
 {% endblock %}
