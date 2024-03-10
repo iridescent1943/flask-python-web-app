@@ -23,6 +23,8 @@
 
 **login:** existing users can log in by providing correct username and password, the password is hidden when the user is typing. This app does not support "show password" feature on the login page.
 
+> Note that if a user is already logged in, when the user revisits the login page, the user will be redirected to corresponding home page, without the need to enter username and password again. The app does not support auto logout feature at this stage.
+
 **register:** new mariner users can create an accounts for themselves through the register feature on the login page. staff accounts need to be created by the admin.
 
 **sources page:** A footer section is added to the guide detail page so the mariner users can check the references if needed.
