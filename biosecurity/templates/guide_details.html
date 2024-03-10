@@ -74,15 +74,15 @@
     
     {% if user_role == 'admin' %}
         <div class="d-grid gap-2 pb-3">
-            <a href="url_for('adminGuideList')" role="button" class="btn btn-info text-light">Back</a>
+            <a href="{{ url_for('adminGuideList') }}" role="button" class="btn btn-info text-light">Back</a>
         </div>
     {% elif user_role == 'staff' %}
         <div class="d-grid gap-2 pb-3">
-            <a href="url_for('staffGuideList')" role="button" class="btn btn-info text-light">Back</a>
+            <a href="{{ url_for('staffGuideList')}}" role="button" class="btn btn-info text-light">Back</a>
         </div>
     {% elif user_role == 'mariner' %}
         <div class="pb-3">
-            <a href="url_for('marinerHome')" role="button" class="btn btn-info text-light"><i class="fa-solid fa-ship"></i> Back</a>
+            <a href="{{ url_for('marinerHome')}}" role="button" class="btn btn-info text-light"><i class="fa-solid fa-ship"></i> Back</a>
         </div>
     {% endif %}   
 
