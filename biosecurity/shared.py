@@ -456,3 +456,12 @@ def deleteGuide(ocean_id):
     else:
         flash ("Guide deleted successfully.", "success")
         return redirect(url_for('staffGuideList'))
+
+
+@app.route("/sources", methods=["GET"])
+def sourcesOfContentMaterial():
+    if "loggedin" in session:
+        return render_template('sources.html', user_role = session["user_role"], username=session['username'])
+    else:
+        flash("Authorized users only. Please log in.", "error")
+        return redirect(url_for('login'))

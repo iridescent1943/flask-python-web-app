@@ -12,7 +12,7 @@
     {% elif guide[2] == 'pest' and guide[3] == 'no' %}
         <style> body{background-color: #d6c876;} </style>
     {% elif guide[2] == 'disease' and guide[3] == 'no' %}
-        <style> body{background-color: #B6A6CA;} </style>
+        <style> body{background-color: #B391DD;} </style>
     {% else %}
         <style> body{background-color: white; color: black} </style>
     {% endif %}  
@@ -68,13 +68,21 @@
 
     {% if guide[7] != "" %}
         <h5>Where can they be found?</h5> 
-        <p>{{ guide[7] }}</p>
-        <br>  
+        <p>{{ guide[7] }}</p> 
     {% endif %}
-    
-    <div class="d-grid gap-2 pb-3">
-        <a href="{% if user_role == 'admin' %}{{ url_for('adminGuideList') }}{% elif user_role == 'staff' %}{{ url_for('staffGuideList') }}{% elif user_role == 'mariner' %}{{ url_for('marinerHome') }}{% endif %}" role="button" class="btn btn-info text-light">Back</a>
+
+    <div class="pb-3">
+        <a href="{% if user_role == 'admin' %}{{ url_for('adminGuideList') }}{% elif user_role == 'staff' %}{{ url_for('staffGuideList') }}{% elif user_role == 'mariner' %}{{ url_for('marinerHome') }}{% endif %}" role="button" class="btn btn-info text-light"><i class="fa-solid fa-ship"></i> Back</a>
     </div>
+    
+
 </div>
 
+<footer>
+    <div class="container-fluid mt-auto py-3" style="background-color: #468AC6 !important;">
+      <P class="d-flex justify-content-center text-light">Thank you for visiting our website. We endeavour to keep the information on the website as accurate as possible.<p>
+      <ul class="nav justify-content-center">
+        <li class="nav-item"><a href="{{ url_for('sourcesOfContentMaterial') }}" class="dashboard-link px-2 text-light">Click me to find out references of the content material <i class="fa-regular fa-face-smile"></i></a></li>
+    </div>
+  </footer>
 {% endblock %}
