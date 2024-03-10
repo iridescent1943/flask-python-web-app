@@ -30,7 +30,7 @@
 ***Image upload:*** The app only support the upload of image with a english name at this stage.
 
 ## Section 3 Data Model
- <img src="biosecurity\static\img\database_structure.svg" alt="database_structure" align=center />
+ <img src="biosecurity\static\img\database_structure.png" alt="database_structure" align=center />
 
 **Notes:**
 1. one user id can only correspond to either one mariner or one staff (admin is also a staff)
