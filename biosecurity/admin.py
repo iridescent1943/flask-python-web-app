@@ -75,7 +75,7 @@ def staffList():
         """
         cursor.execute(sql)
         ALL_STAFF = cursor.fetchall()
-        return render_template('staff_list.html', user_role= user_role, all_staff=ALL_STAFF)
+        return render_template('staff_list.html', username=session['username'], user_role= user_role, all_staff=ALL_STAFF)
     else:
         flash("Authorized users only. Please log in.", "error")
         return redirect(url_for('login'))
