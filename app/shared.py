@@ -6,7 +6,7 @@ from flask import session
 from flask import flash
 from datetime import date
 
-from biosecurity import app
+from app import app
 from flask_hashing import Hashing
 hashing = Hashing(app)
 
