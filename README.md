@@ -29,7 +29,9 @@
 
 **sources page:** A footer section is added to the guide detail page so the mariner users can check the references if needed.
 
-**image upload:** The app only support the upload of image with a English name at this stage.
+**upload image :** The app only support the upload of image with a English name at this stage.
+
+**delete image :** When the admin/staff delete a image from a guide, the image will also be deleted from the folder, as it is assumed that different guides would not share the same image and it might not be good to keep the image in the folder when the image is no longer needed. Therefore, to test if the delete image feature work, better to upload a new image then delete it. The img backup folder contains all original images. 
 
 ## Section 3 Entity-Relationship Model
  <img src="app\static\img\database_structure.png" alt="database_structure" align=center />
