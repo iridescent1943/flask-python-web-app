@@ -77,6 +77,7 @@ def editAdminOrStaffProfile():
         """
         cursor.execute(sql2, (first_name, last_name, email, work_phone, department, position, hire_date, user_id))
         # Redirect to the updated profile page
+        flash ("Profile updated successfully.", "success")
         return redirect(url_for('staffProfile'))
     else:
         return render_template('staff_profile_edit.html', user_role = session["user_role"], username=session['username'], profile=PROFILE, today=today)
