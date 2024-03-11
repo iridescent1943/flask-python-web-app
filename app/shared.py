@@ -290,12 +290,10 @@ def addGuide():
         # and save the image path in the database    
         files= request.files.getlist("non_primary_image")
         for file in files:
-            if allowedFile(file.filename):
-                print("File is allowed.")
+            if allowedFile(file.filename):                
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                image_path = '/static/img/' + filename
-                print(f"image_path {image_path}")
+                image_path = '/static/img/' + filename                
 
                 cursor.execute('SELECT last_insert_id()')
                 ocean_id = cursor.fetchone()[0]
