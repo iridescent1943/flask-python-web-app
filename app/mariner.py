@@ -106,9 +106,9 @@ def marinerChangePassword():
 @app.route("/user/guidedetails/<guide_id>")
 def userGuideDetails(guide_id): 
     if "loggedin" in session and session["user_role"] == "admin":
-        return redirect("/admin/guidedetails/<guide_id>")
+        return redirect(f"/admin/guidedetails/{guide_id}")
     elif "loggedin" in session and session["user_role"] == "staff":
-        return redirect("/staff/guidedetails/<guide_id>")
+        return redirect(f"/staff/guidedetails/{guide_id}")
     elif "loggedin" in session and session["user_role"] == "mariner":    
         return guideDetails(guide_id)
     else: # User is not loggedin, redirect to login page

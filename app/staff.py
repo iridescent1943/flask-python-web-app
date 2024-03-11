@@ -81,7 +81,7 @@ def staffMarinerList():
 @app.route("/staff/mariner/edit/<mariner_id>", methods=["GET", "POST"])
 def staffEditMariner(mariner_id):
     if "loggedin" in session and session["user_role"] == "admin":
-        return redirect(f"/admin/mariner/edit/<mariner_id>")    
+        return redirect(f"/admin/mariner/edit/{mariner_id}")    
     if "loggedin" in session and session["user_role"] == "staff":
         return adminOrStaffEditMariner(mariner_id)
     else:
@@ -92,7 +92,7 @@ def staffEditMariner(mariner_id):
 @app.route("/staff/mariner/inactivate/<mariner_id>", methods=["GET", "POST"])
 def staffInactivateMariner(mariner_id): 
     if "loggedin" in session and session["user_role"] == "admin":
-        return redirect(f"/admin/mariner/inactivate/<mariner_id>")
+        return redirect(f"/admin/mariner/inactivate/{mariner_id}")
     if "loggedin" in session and session["user_role"] == "staff":
         return inactivateMariner(mariner_id)
     else:
@@ -103,7 +103,7 @@ def staffInactivateMariner(mariner_id):
 @app.route("/staff/mariner/reactivate/<mariner_id>", methods=["GET", "POST"])
 def staffReactivateMariner(mariner_id): 
     if "loggedin" in session and session["user_role"] == "admin":
-        return redirect(f"/admin/mariner/reactivate/<mariner_id>")
+        return redirect(f"/admin/mariner/reactivate/{mariner_id}")
     if "loggedin" in session and session["user_role"] == "staff":
         return reactivateMariner(mariner_id)
     else:
@@ -114,7 +114,7 @@ def staffReactivateMariner(mariner_id):
 @app.route("/staff/mariner/delete/<user_id>", methods=["GET", "POST"])
 def staffDeleteMariner(user_id):
     if "loggedin" in session and session["user_role"] == "admin":
-        return redirect(f"/admin/mariner/delete/<user_id>")
+        return redirect(f"/admin/mariner/delete/{user_id}")
     if "loggedin" in session and session["user_role"] == "staff":
         return deleteMariner(user_id)
     else:
@@ -147,7 +147,7 @@ def staffAddGuide():
 @app.route("/staff/guidedetails/<ocean_id>", methods=["GET", "POST"])
 def staffGuideDetails(ocean_id):
     if "loggedin" in session and session["user_role"] == "admin":
-        return redirect(f"/admin/guidedetails/<ocean_id>")
+        return redirect(f"/admin/guidedetails/{ocean_id}")
     elif "loggedin" in session and session["user_role"] == "staff":
         return guideDetails(ocean_id)
     else:
@@ -158,7 +158,7 @@ def staffGuideDetails(ocean_id):
 @app.route("/staff/guide/edit/<ocean_id>", methods=["GET", "POST"])
 def staffEditGuide(ocean_id):
     if "loggedin" in session and session["user_role"] == "admin":
-        return redirect(f"/admin/guide/edit/<ocean_id>")
+        return redirect(f"/admin/guide/edit/{ocean_id}")
     elif "loggedin" in session and session["user_role"] == "staff":
         return editGuideDetails(ocean_id)
     else:
@@ -169,7 +169,7 @@ def staffEditGuide(ocean_id):
 @app.route("/staff/guide/delete/<ocean_id>", methods=["GET", "POST"])
 def staffDeleteGuide(ocean_id):
     if "loggedin" in session and session["user_role"] == "admin":
-        return redirect(f"/admin/guide/delete/<ocean_id>")
+        return redirect(f"/admin/guide/delete/{ocean_id}")
     elif "loggedin" in session and session["user_role"] == "staff":
         return deleteGuide(ocean_id)
     else:
