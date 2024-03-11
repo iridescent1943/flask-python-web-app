@@ -93,7 +93,7 @@ def login():
                             return render_template("login.html")                
             else:
                 # Account doesn't exist or username incorrect
-                flash("User not found. Please try again.", "error")
+                flash("Invalid username. Please try again.", "error")
                 return render_template("login.html")
         else: 
             # User does not attempt to log in, show the login page       
