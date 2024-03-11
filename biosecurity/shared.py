@@ -4,6 +4,7 @@ from flask import redirect
 from flask import url_for
 from flask import session
 from flask import flash
+from datetime import date
 
 from biosecurity import app
 from flask_hashing import Hashing
@@ -49,6 +50,7 @@ def adminOrStaffProfile():
   
 def editAdminOrStaffProfile():  
     user_id = session.get('user_id')
+    today = date.today()
     cursor = getCursor() 
     # Fetch the staff's profile details           
     sql1 = """
@@ -77,7 +79,7 @@ def editAdminOrStaffProfile():
         # Redirect to the updated profile page
         return redirect(url_for('staffProfile'))
     else:
-        return render_template('staff_profile_edit.html', user_role = session["user_role"], username=session['username'], profile=PROFILE)
+        return render_template('staff_profile_edit.html', user_role = session["user_role"], username=session['username'], profile=PROFILE, today=today)
 
 
 def changePassword():    

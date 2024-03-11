@@ -43,12 +43,12 @@
 
         {% if user_role == 'admin' %}
           <div class="col-sm-12">
-            <label for="hire_date" class="form-label">Hire date<span class="text-danger">*</span></label>
-            <input type="date" name="hire_date" class="form-control" value="{{ profile[6] }}" max="{{today}}" required>
+            <label for="hire_date" class="form-label">Hire date</label>
+            <input type="date" name="hire_date" class="form-control" value="{{ profile[6] }}" max="{{today}}">
         </div>
         {% elif user_role == 'staff' %}
         <div class="col-sm-12">
-            <input type ="hidden" name="hire_date" value="{{ profile[6] }}" required>
+            <input type ="hidden" name="hire_date" value="{{ profile[6] }}">
           </div>
         {% endif %}
 
