@@ -20,7 +20,7 @@ email varchar(100) not null,
 work_phone varchar(15),
 department varchar(50) not null,
 `position` varchar(50),
-hire_date date,
+hire_date date not null,
 active_user tinyint default 1,
 user_id int not null, 
 FOREIGN KEY (user_id) REFERENCES user(user_id)
