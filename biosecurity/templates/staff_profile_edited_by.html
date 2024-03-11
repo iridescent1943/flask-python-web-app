@@ -11,7 +11,7 @@
     <form class="row g-3 pb-3 needs-validation" novalidate action="/admin/staff/edit/{{ staff_id }}" method="post">
 
         <div class="col-sm-6">
-            <label for="first_name" class="form-label">First name</label>
+            <label for="first_name" class="form-label">First name<span class="text-danger">*</span></label>
             <input type="text" name="first_name" class="form-control" value="{{ profile[0] }}" maxlength="50" pattern="[A-Za-z]{1,50}" required>
             <div class="invalid-feedback">
                 Please enter a valid first name.
@@ -19,7 +19,7 @@
         </div>
 
         <div class="col-sm-6">
-            <label for="last_name" class="form-label">Last name</label>
+            <label for="last_name" class="form-label">Last name<span class="text-danger">*</span></label>
             <input type="text" name="last_name" class="form-control" value="{{ profile[1] }}" maxlength="50" pattern="[A-Za-z]{1,50}" required>
             <div class="invalid-feedback">
                 Please enter a valid last name.
@@ -27,7 +27,7 @@
         </div>
 
         <div class="col-sm-6">
-            <label for="department" class="form-label">Department</label>
+            <label for="department" class="form-label">Department<span class="text-danger">*</span></label>
             <input type="text" name="department" class="form-control" value="{{ profile[4] }}" maxlength="50" required>
             <div class="invalid-feedback">
                 Invalid input.
@@ -48,7 +48,7 @@
         </div>
 
         <div class="col-sm-6">
-            <label for="email" class="form-label">Email</label>
+            <label for="email" class="form-label">Email<span class="text-danger">*</span></label>
             <input type="email" name="email" class="form-control" value="{{ profile[2] }}" maxlength="100" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" required>
             <div class="invalid-feedback">
                 Please enter a valid email.
@@ -56,8 +56,8 @@
         </div>
 
         <div class="col-sm-12">
-            <label for="hire_date" class="form-label">Hire date</label>
-            <input type="date" name="hire_date" class="form-control" value="{{ profile[6] }}" max="{{today}}">
+            <label for="hire_date" class="form-label">Hire date<span class="text-danger">*</span></label>
+            <input type="date" name="hire_date" class="form-control" value="{{ profile[6] }}" max="{{today}}" required>
         </div>
 
         <div class="d-grid gap-2 col-sm-6">

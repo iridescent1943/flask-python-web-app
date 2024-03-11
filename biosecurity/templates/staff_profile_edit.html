@@ -59,8 +59,8 @@
 
         {% if user_role == 'admin' %}
         <div class="col-sm-12">
-            <label for="hire_date" class="form-label">Hire date</label>
-            <input type="date" name="hire_date" class="form-control" value="{{ profile[6] }}" max="{{today}}">
+            <label for="hire_date" class="form-label">Hire date<span class="text-danger">*</span></label>
+            <input type="date" name="hire_date" class="form-control" value="{{ profile[6] }}" max="{{today}}" required>
         </div>
         {% elif user_role == 'staff' %}
         <div class="col-sm-12">

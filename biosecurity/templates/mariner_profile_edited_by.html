@@ -15,7 +15,7 @@
   {% endif %}
    
       <div class="col-sm-6">
-        <label for="first_name" class="form-label">First name</label>
+        <label for="first_name" class="form-label">First name<span class="text-danger">*</span></label>
         <input type="text" name="first_name" class="form-control" value="{{ profile[0] }}" maxlength="50" pattern="[A-Za-z]{1,50}" required>
         <div class="invalid-feedback">
           Please enter a valid first name.
@@ -31,7 +31,7 @@
       </div>
 
       <div class="col-sm-12">
-        <label for="email" class="form-label">Email</label>
+        <label for="email" class="form-label">Email<span class="text-danger">*</span></label>
         <input type="email" name="email" class="form-control" value="{{ profile[2] }}" maxlength="100" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" required>
         <div class="invalid-feedback">
           Please enter a valid email address.
