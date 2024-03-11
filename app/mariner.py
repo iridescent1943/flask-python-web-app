@@ -90,7 +90,7 @@ def editMarinerProfile():
         return redirect(url_for('login'))
 
 
-@app.route("/user/changepassword")
+@app.route("/user/changepassword", methods=["GET", "POST"])
 def marinerChangePassword(): 
     if "loggedin" in session and session["user_role"] == "admin":
         return redirect("/admin/changepassword")
