@@ -211,7 +211,7 @@ def deleteStaff(user_id):
             cursor = getCursor()
             sql = "DELETE FROM user WHERE user_id = %s;"
             cursor.execute(sql, (user_id,))
-            flash("Selected staff accountdeleted successfully.", "success")
+            flash("Staff account deleted successfully.", "success")
             return redirect(url_for('staffList'))  
         else:
             return redirect(url_for('staffList'))        
