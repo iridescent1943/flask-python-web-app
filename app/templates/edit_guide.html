@@ -15,17 +15,17 @@
     {% endif %}    
 
             <div class="col-sm-6">
-                <label for="common_name" class="form-label">Common name</label>
+                <label for="common_name" class="form-label">Common name<span class="text-danger">*</span></label>
                 <input type="text" name="common_name" class="form-control" value ="{{guide[3]}}" maxlength="100" required>
             </div>
 
             <div class="col-sm-6">
-                <label for="scientific_name" class="form-label">Scientific name</label>
+                <label for="scientific_name" class="form-label">Scientific name<span class="text-danger">*</span></label>
                 <input type="text" name="scientific_name" class="form-control" value ="{{guide[4]}}" maxlength="100" required>
             </div>
 
             <div class="col-sm-6">
-            <label for="ocean_item_type" class="form-label">Ocean item type</label>
+            <label for="ocean_item_type" class="form-label">Ocean item type<span class="text-danger">*</span></label>
             <select name="ocean_item_type" class="form-select" required>
                 <option value="" disabled>Choose...</option>
                 {% if guide[1] == 'pest' %}
@@ -39,7 +39,7 @@
             </div>
 
             <div class="col-sm-6">
-                <label for="present_in_NZ" class="form-label">Present in NZ</label>
+                <label for="present_in_NZ" class="form-label">Present in NZ<span class="text-danger">*</span></label>
                 <select name="present_in_NZ" class="form-select" required>
                     <option value="" disabled>Choose...</option>
                     {% if guide[2] == 'yes' %}
@@ -53,7 +53,7 @@
             </div>
 
             <div class="col-sm-12">
-                <label for="description" class="form-label">Description</label>
+                <label for="description" class="form-label">Description<span class="text-danger">*</span></label>
                 <textarea name="description" class="form-control" rows="5" required>{{guide[5]}}</textarea>
             </div>
 
@@ -73,7 +73,7 @@
             </div>
 
             <div class="col-sm-12">
-                <label for="select_primary_image" class="form-label">Select primary image</label>
+                <label for="select_primary_image" class="form-label">Select primary image<span class="text-danger">*</span></label>
                 <select name="select_primary_image" class="form-select" required>
                     {% for image in images %}
                         {% if image[3] == 1 %}
