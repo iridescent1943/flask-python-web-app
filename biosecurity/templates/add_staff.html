@@ -48,8 +48,8 @@
         </div>
 
         <div class="col-sm-6">
-          <label for="hire_date" class="form-label">Hire date</label>
-          <input type="date" name="hire_date" class="form-control" max="{{today}}">
+          <label for="hire_date" class="form-label">Hire date<span class="text-danger">*</span></label>
+          <input type="date" name="hire_date" class="form-control" max="{{today}}" required>
           <!-- max="{{today}} is to unsure the user can only select the current or a past date.-->
         </div>
 
