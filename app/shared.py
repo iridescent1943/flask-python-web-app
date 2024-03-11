@@ -398,7 +398,7 @@ def editGuideDetails(ocean_id):
 
 @app.route("/guide/addimage/<ocean_id>", methods=["GET", "POST"])
 def addGuideImage(ocean_id):
-    if session["user_role"] == "admin" or session["user_role"] == "staff":
+    if "loggedin" in session and session["user_role"] != "mariner":
         cursor = getCursor()   
         if request.method == "POST":
             files= request.files.getlist("add_image_to_guide")
@@ -426,13 +426,13 @@ def addGuideImage(ocean_id):
         else:
             return render_template("edit_guide_addimage.html", user_role = session["user_role"], username=session['username'], ocean_id = ocean_id)
     else:
-        flash("Authorized users only. Please log in.", "error")
+        flash("Authorized users only!", "error")
         return redirect(url_for('login'))      
 
 
 @app.route("/guide/deleteimage/<ocean_id>/<image_name>", methods=["GET", "POST"])
 def deleteGuideImage(ocean_id, image_name): 
-    if session["user_role"] == "admin" or session["user_role"] == "staff":
+    if "loggedin" in session and session["user_role"] != "mariner":
         cursor = getCursor()
         sql = "DELETE FROM image WHERE ocean_id = %s and image_name = %s;"
         cursor.execute(sql, (ocean_id, image_name)) 
@@ -445,7 +445,7 @@ def deleteGuideImage(ocean_id, image_name):
             flash ("Image deleted successfully.", "success")
             return redirect(f"/staff/guide/edit/{ocean_id}")
     else: 
-        flash("Authorized users only. Please log in.", "error")
+        flash("Authorized users only!", "error")
         return redirect(url_for('login'))   
 
 
@@ -466,5 +466,5 @@ def sourcesOfContentMaterial():
     if "loggedin" in session:
         return render_template('sources.html', user_role = session["user_role"], username=session['username'])
     else:
-        flash("Authorized users only. Please log in.", "error")
+        flash("Authorized users only! Please log in.", "error")
         return redirect(url_for('login'))

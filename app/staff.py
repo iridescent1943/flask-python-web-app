@@ -30,7 +30,7 @@ def staffHome():
     elif "loggedin" in session and session["user_role"] == "staff":
         return home()
     else:
-        flash("Authorized users only. Please log in.", "error")
+        flash("Authorized users only!", "error")
         return redirect(url_for('login'))
     
 
@@ -41,7 +41,7 @@ def staffProfile():
     elif "loggedin" in session and session["user_role"] == "staff":
         return adminOrStaffProfile()
     else:
-        flash("Authorized users only. Please log in.", "error")
+        flash("Authorized users only!", "error")
         return redirect(url_for('login'))
 
 
@@ -52,7 +52,7 @@ def editStaffProfile():
     elif "loggedin" in session and session["user_role"] == "staff":
         return editAdminOrStaffProfile()
     else:
-        flash("Authorized users only. Please log in.", "error")
+        flash("Authorized users only!", "error")
         return redirect(url_for('login'))
     
 
@@ -63,7 +63,7 @@ def staffChangePassword():
     elif "loggedin" in session and session["user_role"] == "staff":
         return changePassword()
     else:
-        flash("Authorized users only. Please log in.", "error")
+        flash("Authorized users only!", "error")
         return redirect(url_for('login'))
     
 
@@ -74,7 +74,7 @@ def staffMarinerList():
     elif "loggedin" in session and session["user_role"] == "staff":
         return marinerList()  
     else:
-        flash("Authorized users only. Please log in.", "error")
+        flash("Authorized users only!", "error")
         return redirect(url_for('login'))
     
 
@@ -85,7 +85,7 @@ def staffEditMariner(mariner_id):
     if "loggedin" in session and session["user_role"] == "staff":
         return adminOrStaffEditMariner(mariner_id)
     else:
-        flash("Authorized users only. Please log in.", "error")
+        flash("Authorized users only!", "error")
         return redirect(url_for('login'))
         
 
@@ -96,7 +96,7 @@ def staffInactivateMariner(mariner_id):
     if "loggedin" in session and session["user_role"] == "staff":
         return inactivateMariner(mariner_id)
     else:
-        flash("Authorized users only. Please log in.", "error")
+        flash("Authorized users only!", "error")
         return redirect(url_for('login')) 
     
 
@@ -107,7 +107,7 @@ def staffReactivateMariner(mariner_id):
     if "loggedin" in session and session["user_role"] == "staff":
         return reactivateMariner(mariner_id)
     else:
-        flash("Authorized users only. Please log in.", "error")
+        flash("Authorized users only!", "error")
         return redirect(url_for('login')) 
     
     
@@ -118,7 +118,7 @@ def staffDeleteMariner(user_id):
     if "loggedin" in session and session["user_role"] == "staff":
         return deleteMariner(user_id)
     else:
-        flash("Authorized users only. Please log in.", "error")
+        flash("Authorized users only!", "error")
         return redirect(url_for('login')) 
     
     
@@ -129,7 +129,7 @@ def staffGuideList():
     elif "loggedin" in session and session["user_role"] == "staff":
         return guideList()
     else:
-        flash("Authorized users only. Please log in.", "error")
+        flash("Authorized users only!", "error")
         return redirect(url_for('login'))
     
 
@@ -140,7 +140,7 @@ def staffAddGuide():
     elif "loggedin" in session and session["user_role"] == "staff":
         return addGuide()
     else:
-        flash("Authorized users only. Please log in.", "error")
+        flash("Authorized users only!", "error")
         return redirect(url_for('login'))
     
 
@@ -151,7 +151,7 @@ def staffGuideDetails(ocean_id):
     elif "loggedin" in session and session["user_role"] == "staff":
         return guideDetails(ocean_id)
     else:
-        flash("Authorized users only. Please log in.", "error")
+        flash("Authorized users only!", "error")
         return redirect(url_for('login'))   
     
 
@@ -162,7 +162,7 @@ def staffEditGuide(ocean_id):
     elif "loggedin" in session and session["user_role"] == "staff":
         return editGuideDetails(ocean_id)
     else:
-        flash("Authorized users only. Please log in.", "error")
+        flash("Authorized users only!", "error")
         return redirect(url_for('login'))
     
 
@@ -173,5 +173,5 @@ def staffDeleteGuide(ocean_id):
     elif "loggedin" in session and session["user_role"] == "staff":
         return deleteGuide(ocean_id)
     else:
-        flash("Authorized users only. Please log in.", "error")
+        flash("Authorized users only!", "error")
         return redirect(url_for('login'))
