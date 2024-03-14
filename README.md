@@ -29,6 +29,8 @@
 
 **sources page:** A footer section is added to the guide detail page so the mariner users can check the references if needed.
 
+**staff list:** While the admin is also a staff, when the admin access the staff list, the admin itself is not shown in the list to avoid accidental deactivation. Also, it is not necessary to include the admin in the staff list as the admin can update its account information through *manage profile* and *change password* features.
+
 **add guide:** It is assumed that the common name and scientific name of a pest or a disease might contain special characters, therefore not just alphabetic letters are allowed in the common or scientific names. 
 
 **upload image:** The app only support the upload of image with a English name at this stage.
