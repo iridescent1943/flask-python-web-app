@@ -28,15 +28,15 @@
         </div>
 
         {% if user_role == 'admin' %}
-          <div class="pb-3">
+          <div class="pb-3 pt-3">
               <a href="{{ url_for('adminHome') }}" role="button" class="btn btn-info text-light"><i class="fa-solid fa-ship"></i> Back</a>
           </div>
         {% elif user_role == 'staff' %}
-          <div class="pb-3">
+          <div class="pb-3 pt-3">
               <a href="{{ url_for('staffHome')}}" role="button" class="btn btn-info text-light"><i class="fa-solid fa-ship"></i> Back</a>
           </div>
         {% elif user_role == 'mariner' %}
-          <div class="pb-3">
+          <div class="pb-3 pt-3">
               <a href="{{ url_for('marinerHome')}}" role="button" class="btn btn-info text-light"><i class="fa-solid fa-ship"></i> Back</a>
           </div>
         {% endif %}   
