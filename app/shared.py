@@ -409,18 +409,18 @@ def addGuideImage(ocean_id):
                     # save the image path in the database    
                     sql = "INSERT INTO image (ocean_id, image_path, image_name) VALUES (%s, %s, %s);"
                     cursor.execute(sql, (ocean_id, image_path, filename))
+                else:
+                    flash("Only JPG, JPEG, PNG or GIF files are allowed. Please try again. ", "error")
                     if session["user_role"] == "admin":
-                        flash ("Image added successfully.", "success")
                         return redirect(f"/admin/guide/edit/{ocean_id}")
                     else:
-                        flash ("Image added successfully.", "success")
                         return redirect(f"/staff/guide/edit/{ocean_id}")
+            if session["user_role"] == "admin":
+                flash ("Image added successfully.", "success")
+                return redirect(f"/admin/guide/edit/{ocean_id}")
             else:
-                flash("Only JPG, JPEG, PNG or GIF files are allowed. Please try again. ", "error")
-                if session["user_role"] == "admin":
-                    return redirect(f"/admin/guide/edit/{ocean_id}")
-                else:
-                    return redirect(f"/staff/guide/edit/{ocean_id}")
+                flash ("Image added successfully.", "success")
+                return redirect(f"/staff/guide/edit/{ocean_id}")
         else:
             return render_template("edit_guide_addimage.html", user_role = session["user_role"], username=session['username'], ocean_id = ocean_id)
     else:
